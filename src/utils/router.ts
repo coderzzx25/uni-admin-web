@@ -18,19 +18,20 @@ const mapIcon = (icon: string) => {
 /**
  * 路由转Antd menu数据
  * @param router 路由数据
+ * @param t 国际化方法
  * @returns Antd menu数据
  */
-export const routerToMenu = (router: IUserMenuListResponse[]): MenuItem[] => {
+export const routerToMenu = (router: IUserMenuListResponse[], t: (key: string) => string): MenuItem[] => {
   if (!router.length) return [];
   return router.map((item: IUserMenuListResponse) => {
     const menuItem: MenuItem = {
       key: item.path,
       icon: mapIcon(item.menuIcon),
-      label: item.i18nName
+      label: t(item.i18nName)
     };
 
     if (item.children && item.children.length > 0) {
-      menuItem.children = routerToMenu(item.children);
+      menuItem.children = routerToMenu(item.children, t);
     }
 
     return menuItem;

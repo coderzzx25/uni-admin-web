@@ -1,0 +1,10 @@
+{
+  "MENUS": {
+    "DASHBOARD": "Dashboard",
+    "SYSTEM": "System",
+    "ROLE": "Role",
+    "MENU": "Menu",
+    "PERMISSION": "Permission",
+    "USER": "User"
+  }
+}

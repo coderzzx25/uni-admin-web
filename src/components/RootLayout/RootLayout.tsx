@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
 import { fetchUserInfo, fetchUserMenus } from '@/store/modules/user';
 import { mapRouterToUrl, routerToMenu } from '@/utils/router';
 import RootMenu from '../RootMenu/RootMenu';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   children?: ReactNode;
@@ -19,6 +20,7 @@ const RootLayout: FC<IProps> = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { collapsed, userMenus } = useAppSelector((state) => state.user, useAppShallowEqual);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const RootLayout: FC<IProps> = () => {
 
   // 将菜单转成一维数组用于判断是否拥有目标路由权限
   const router = useMemo(() => mapRouterToUrl(userMenus), [userMenus]);
-  const items = useMemo(() => routerToMenu(userMenus), [userMenus]);
+  const items = useMemo(() => routerToMenu(userMenus, t), [userMenus]);
 
   useEffect(() => {
     if (router.length && !router.includes(pathname)) {

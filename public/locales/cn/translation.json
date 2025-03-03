@@ -1,0 +1,10 @@
+{
+  "MENUS": {
+    "DASHBOARD": "仪表盘",
+    "SYSTEM": "系统管理",
+    "ROLE": "角色管理",
+    "MENU": "菜单管理",
+    "PERMISSION": "权限管理",
+    "USER": "用户管理"
+  }
+}
