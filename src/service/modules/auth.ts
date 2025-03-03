@@ -7,7 +7,6 @@ export interface IUserAccountLoginRequest {
 }
 
 export interface IUserAccountLoginResponse {
-  id: number;
   token: string;
   refreshToken: string;
 }
@@ -73,5 +72,18 @@ export interface IUserMenuListResponse {
 export const userMenuListAPI = () => {
   return request.get<IUserMenuListResponse[]>({
     url: '/auth/user-menu'
+  });
+};
+
+/**
+ * 刷新 token
+ * @returns 新的 token
+ */
+export const refreshTokenAPI = (refreshToken: string) => {
+  return request.get<IUserAccountLoginResponse>({
+    url: '/auth/refresh-token',
+    headers: {
+      Authorization: `Bearer ${refreshToken}`
+    }
   });
 };

@@ -1,7 +1,7 @@
 import { localCache } from '@/utils/cache';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IUserAccountLoginResponse } from '@/service/modules/auth';
+import { IUserAccountLoginResponse, refreshTokenAPI } from '@/service/modules/auth';
 import { IUserInfoResponse, userInfoAPI, userMenuListAPI, IUserMenuListResponse } from '@/service/modules/auth';
 
 interface IUserState {
@@ -29,6 +29,14 @@ export const fetchUserMenus = createAsyncThunk<IUserMenuListResponse[], void>('u
   return result;
 });
 
+export const fetchRefreshToken = createAsyncThunk<IUserAccountLoginResponse, string>(
+  'user/fetchRefreshToken',
+  async (refreshToken: string) => {
+    const result = await refreshTokenAPI(refreshToken);
+    return result;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -48,6 +56,14 @@ const userSlice = createSlice({
       // 将token存储到localStorage中
       localCache.setCache('token', payload.token);
       localCache.setCache('refreshToken', payload.refreshToken);
+    },
+    clearTokenReducer(state) {
+      state.token = '';
+      state.refreshToken = '';
+
+      // 将token存储到localStorage中
+      localCache.deleteCache('token');
+      localCache.deleteCache('refreshToken');
     },
     setThemeStateReducer(state) {
       state.themeState = !state.themeState;
@@ -72,9 +88,17 @@ const userSlice = createSlice({
     builder.addCase(fetchUserMenus.fulfilled, (state, { payload }: PayloadAction<IUserMenuListResponse[]>) => {
       state.userMenus = payload;
     });
+    builder.addCase(fetchRefreshToken.fulfilled, (state, { payload }: PayloadAction<IUserAccountLoginResponse>) => {
+      state.token = payload.token;
+      state.refreshToken = payload.refreshToken;
+
+      // 将token存储到localStorage中
+      localCache.setCache('token', payload.token);
+      localCache.setCache('refreshToken', payload.refreshToken);
+    });
   }
 });
 
-export const { setTokenReducer, setThemeStateReducer, setCollapsedReducer } = userSlice.actions;
+export const { setTokenReducer, clearTokenReducer, setThemeStateReducer, setCollapsedReducer } = userSlice.actions;
 
 export default userSlice.reducer;
