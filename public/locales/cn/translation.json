@@ -1,20 +1,18 @@
 {
-  "DASHBOARD": {
-    "TITLE": "仪表盘"
-  },
+  "DASHBOARD": "仪表盘",
   "SYSTEM": {
-    "TITLE": "系统管理"
-  },
-  "ROLE": {
-    "TITLE": "角色管理"
-  },
-  "MENU": {
-    "TITLE": "菜单管理"
-  },
-  "PERMISSION": {
-    "TITLE": "权限管理"
-  },
-  "USER": {
-    "TITLE": "用户管理"
+    "TITLE": "系统管理",
+    "ROLE": {
+      "TITLE": "角色管理"
+    },
+    "MENU": {
+      "TITLE": "菜单管理"
+    },
+    "PERMISSION": {
+      "TITLE": "权限管理"
+    },
+    "USER": {
+      "TITLE": "用户管理"
+    }
   }
 }

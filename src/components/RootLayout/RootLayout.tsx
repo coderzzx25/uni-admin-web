@@ -30,7 +30,7 @@ const RootLayout: FC<IProps> = () => {
 
   // 将菜单转成一维数组用于判断是否拥有目标路由权限
   const router = useMemo(() => mapRouterToUrl(userMenus), [userMenus]);
-  const items = useMemo(() => routerToMenu(userMenus, t), [userMenus]);
+  const items = useMemo(() => routerToMenu(userMenus, t, ''), [userMenus]);
 
   useEffect(() => {
     if (router.length && !router.includes(pathname)) {

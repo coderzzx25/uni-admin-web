@@ -21,17 +21,22 @@ const mapIcon = (icon: string) => {
  * @param t 国际化方法
  * @returns Antd menu数据
  */
-export const routerToMenu = (router: IUserMenuListResponse[], t: (key: string) => string): MenuItem[] => {
+export const routerToMenu = (
+  router: IUserMenuListResponse[],
+  t: (key: string) => string,
+  parentI18nName: string
+): MenuItem[] => {
   if (!router.length) return [];
   return router.map((item: IUserMenuListResponse) => {
+    const fullI18nName = parentI18nName ? `${parentI18nName.split('.')[0]}.${item.i18nName}` : item.i18nName;
     const menuItem: MenuItem = {
       key: item.path,
       icon: mapIcon(item.menuIcon),
-      label: t(item.i18nName)
+      label: t(fullI18nName)
     };
 
     if (item.children && item.children.length > 0) {
-      menuItem.children = routerToMenu(item.children, t);
+      menuItem.children = routerToMenu(item.children, t, fullI18nName);
     }
 
     return menuItem;
