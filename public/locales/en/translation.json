@@ -1,10 +1,20 @@
 {
-  "MENUS": {
-    "DASHBOARD": "Dashboard",
-    "SYSTEM": "System",
-    "ROLE": "Role",
-    "MENU": "Menu",
-    "PERMISSION": "Permission",
-    "USER": "User"
+  "DASHBOARD": {
+    "TITLE": "Dashboard"
+  },
+  "SYSTEM": {
+    "TITLE": "System"
+  },
+  "ROLE": {
+    "TITLE": "Role"
+  },
+  "MENU": {
+    "TITLE": "Menu"
+  },
+  "PERMISSION": {
+    "TITLE": "Permission"
+  },
+  "USER": {
+    "TITLE": "User"
   }
 }
