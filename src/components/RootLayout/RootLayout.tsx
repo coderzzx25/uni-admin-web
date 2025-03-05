@@ -52,7 +52,7 @@ const RootLayout: FC<IProps> = () => {
       </Sider>
       <Layout>
         <Header>header</Header>
-        <Content>
+        <Content className="content">
           <Outlet />
         </Content>
       </Layout>

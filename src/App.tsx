@@ -31,9 +31,6 @@ const App: FC<IProps> = () => {
         <ConfigProvider
           theme={{
             algorithm: themeState ? theme.darkAlgorithm : theme.defaultAlgorithm,
-            // token: {
-            //   colorPrimary: themeColor
-            // },
             components: {
               Layout: {
                 siderBg: themeState ? themeColor : '#f0f2f5',
