@@ -13,6 +13,12 @@
     },
     "USER": {
       "TITLE": "User"
+    },
+    "DEPARTMENT": {
+      "TITLE": "Department"
+    },
+    "JOB": {
+      "TITLE": "Job"
     }
   }
 }

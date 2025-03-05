@@ -26,6 +26,12 @@ const request = new Request({
       return response.data;
     },
     responseFailureFn: async (error) => {
+      // 判断网络是否断开
+      if (!error.response) {
+        window.location.href = '/500';
+      }
+
+      // 判断token是否失效
       const status = error.response?.status;
       if (status === 401 && !isRefreshing) {
         isRefreshing = true;

@@ -13,6 +13,12 @@
     },
     "USER": {
       "TITLE": "用户管理"
+    },
+    "DEPARTMENT": {
+      "TITLE": "部门管理"
+    },
+    "JOB": {
+      "TITLE": "职位管理"
     }
   }
 }

@@ -20,7 +20,7 @@ class Request {
     );
     this.instance.interceptors.response.use(
       (res) => {
-        return Promise.resolve(res);
+        return res;
       },
       (err) => {
         return Promise.reject(err);
