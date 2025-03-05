@@ -4,13 +4,6 @@ import type { FC, ReactNode } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
 import { IFormConfig, IFormItem } from './interface';
 
-interface IProps {
-  formConfig: IFormConfig;
-  form: FormInstance;
-  children?: ReactNode;
-  className?: string;
-}
-
 const defaultFormConfig: Partial<IFormConfig> = {
   col: { sm: 24, md: 12, lg: 6 },
   row: { gutter: 16 }
@@ -36,25 +29,27 @@ const renderFormItem = (item: IFormItem) => {
           </Select>
         </Form.Item>
       );
-    case 'action':
-      return (
-        <Form.Item noStyle>
-          <Space>
-            {item.buttons.map((button, index) => (
-              <Button key={index} type={button.type} onClick={button.onClick ?? (() => {})}>
-                {button.text}
-              </Button>
-            ))}
-          </Space>
-        </Form.Item>
-      );
     default:
       return null;
   }
 };
 
-const BaseForm: FC<IProps> = ({ form, formConfig, className }) => {
+interface IProps {
+  formConfig: IFormConfig;
+  children?: ReactNode;
+  className?: string;
+  handleFormSearch?: (form: FormInstance) => void;
+  handleFormReset?: (form: FormInstance) => void;
+}
+const BaseForm: FC<IProps> = ({ formConfig, className, handleFormSearch, handleFormReset }) => {
   const mergedConfig = { ...defaultFormConfig, ...formConfig };
+  const [form] = Form.useForm();
+  const handleSearch = () => {
+    handleFormSearch && handleFormSearch(form);
+  };
+  const handleReset = () => {
+    handleFormReset && handleFormReset(form);
+  };
   return (
     <Row {...mergedConfig.row}>
       <Form form={form} layout="inline" className={className} style={{ width: '100%' }}>
@@ -63,6 +58,14 @@ const BaseForm: FC<IProps> = ({ form, formConfig, className }) => {
             {renderFormItem(item)}
           </Col>
         ))}
+        <Form.Item>
+          <Space>
+            <Button type="primary" onClick={handleSearch}>
+              查询
+            </Button>
+            <Button onClick={handleReset}>重置</Button>
+          </Space>
+        </Form.Item>
       </Form>
     </Row>
   );

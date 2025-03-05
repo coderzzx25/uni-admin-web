@@ -17,13 +17,6 @@ const jobFormConfig: IFormConfig = {
         { label: '启用', value: 1 },
         { label: '禁用', value: 0 }
       ]
-    },
-    {
-      type: 'action',
-      buttons: [
-        { type: 'primary', text: '查询' },
-        { type: 'default', text: '重置' }
-      ]
     }
   ]
 };
