@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import type { FC, ReactNode } from 'react';
 
 import { Button, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
@@ -14,13 +14,13 @@ const renderFormItem = (item: IFormItem) => {
     case 'input':
       return (
         <Form.Item label={item.label} name={item.name} initialValue={item.initialValue ?? undefined}>
-          <Input placeholder={item.placeholder} />
+          <Input placeholder={item.placeholder ?? `请输入${item.label}`} />
         </Form.Item>
       );
     case 'select':
       return (
         <Form.Item label={item.label} name={item.name} initialValue={item.initialValue ?? undefined}>
-          <Select placeholder={item.placeholder}>
+          <Select placeholder={item.placeholder ?? `请选择${item.label}`} allowClear={item.allowClear}>
             {item.options.map((option, index) => (
               <Select.Option key={index} value={option.value}>
                 {option.label}
@@ -44,15 +44,15 @@ interface IProps {
 const BaseForm: FC<IProps> = ({ formConfig, className, handleFormSearch, handleFormReset }) => {
   const mergedConfig = { ...defaultFormConfig, ...formConfig };
   const [form] = Form.useForm();
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     handleFormSearch && handleFormSearch(form);
-  };
-  const handleReset = () => {
+  }, [form]);
+  const handleReset = useCallback(() => {
     handleFormReset && handleFormReset(form);
-  };
+  }, [form]);
   return (
     <Row {...mergedConfig.row}>
-      <Form form={form} layout="inline" className={className} style={{ width: '100%' }}>
+      <Form form={form} layout="inline" autoComplete="off" className={className} style={{ width: '100%' }}>
         {mergedConfig.formItem.map((item, index) => (
           <Col key={index} {...mergedConfig.col}>
             {renderFormItem(item)}

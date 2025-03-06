@@ -3,6 +3,7 @@ import request from '..';
 export interface IGetJobListRequest {
   page: number;
   size: number;
+  name?: string;
   status?: number;
 }
 

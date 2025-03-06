@@ -8,6 +8,7 @@ interface IFormItemBase {
 
 interface IFormItemSelect extends IFormItemBase {
   type: 'select';
+  allowClear?: boolean;
   options: { label: string; value: string | number }[];
 }
 
