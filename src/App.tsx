@@ -2,6 +2,8 @@ import { memo, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { ConfigProvider, theme } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
+import enUS from 'antd/lib/locale/en_US';
 
 import { useAppSelector, useAppShallowEqual } from './store';
 import router from './router';
@@ -11,7 +13,7 @@ interface IProps {
 }
 
 const App: FC<IProps> = () => {
-  const { themeDark, themeColor } = useAppSelector((state) => state.user, useAppShallowEqual);
+  const { themeDark, themeColor, language } = useAppSelector((state) => state.user, useAppShallowEqual);
 
   const darkColor = '#141414';
   const lightColor = '#fafafa';
@@ -34,7 +36,7 @@ const App: FC<IProps> = () => {
   );
 
   return (
-    <ConfigProvider theme={themeConfig}>
+    <ConfigProvider theme={themeConfig} locale={language === 'cn' ? zhCN : enUS}>
       <RouterProvider router={router} />
     </ConfigProvider>
   );
