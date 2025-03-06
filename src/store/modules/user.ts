@@ -9,9 +9,10 @@ interface IUserState {
   refreshToken: string;
   userInfo: IUserInfoResponse | null;
   userMenus: IUserMenuListResponse[] | [];
-  themeState: boolean;
+  themeDark: boolean;
   themeColor: string;
   collapsed: boolean;
+  language: string;
 }
 
 /**
@@ -44,9 +45,10 @@ const userSlice = createSlice({
     refreshToken: localCache.getCache('refreshToken') || '',
     userInfo: null,
     userMenus: [],
-    themeState: localCache.getCache('themeState') || false,
-    themeColor: localCache.getCache('themeColor') || '#409EFF',
-    collapsed: localCache.getCache('collapsed') || false
+    themeDark: localCache.getCache('themeDark') || false,
+    themeColor: localCache.getCache('themeColor') || '#1677ff',
+    collapsed: localCache.getCache('collapsed') || false,
+    language: localCache.getCache('language') || 'cn'
   } as IUserState,
   reducers: {
     setTokenReducer(state, { payload }: PayloadAction<IUserAccountLoginResponse>) {
@@ -65,20 +67,25 @@ const userSlice = createSlice({
       localCache.deleteCache('token');
       localCache.deleteCache('refreshToken');
     },
-    setThemeStateReducer(state) {
-      state.themeState = !state.themeState;
+    setThemeDarkReducer(state, { payload }: PayloadAction<boolean>) {
+      state.themeDark = payload;
 
-      localCache.setCache('themeState', state.themeState);
+      localCache.setCache('themeDark', payload);
     },
     setThemeColorReducer(state, { payload }: PayloadAction<string>) {
       state.themeColor = payload;
 
       localCache.setCache('themeColor', payload);
     },
-    setCollapsedReducer(state) {
-      state.collapsed = !state.collapsed;
+    setCollapsedReducer(state, { payload }: PayloadAction<boolean>) {
+      state.collapsed = payload;
 
-      localCache.setCache('collapsed', state.collapsed);
+      localCache.setCache('collapsed', payload);
+    },
+    setLanguageReducer(state, { payload }: PayloadAction<string>) {
+      state.language = payload;
+
+      localCache.setCache('language', payload);
     }
   },
   extraReducers: (builder) => {
@@ -99,6 +106,7 @@ const userSlice = createSlice({
   }
 });
 
-export const { setTokenReducer, clearTokenReducer, setThemeStateReducer, setCollapsedReducer } = userSlice.actions;
+export const { setTokenReducer, clearTokenReducer, setThemeDarkReducer, setCollapsedReducer, setLanguageReducer } =
+  userSlice.actions;
 
 export default userSlice.reducer;
