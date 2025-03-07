@@ -18,7 +18,33 @@
       "TITLE": "Department"
     },
     "JOB": {
-      "TITLE": "Job"
+      "TITLE": "Job",
+      "SEARCH_CONFIG": {
+        "NAME": {
+          "LABEL": "Job Name",
+          "PLACEHOLDER": "Please input job name"
+        },
+        "STATUS": {
+          "LABEL": "Job Status",
+          "PLACEHOLDER": "Please select job status"
+        }
+      },
+      "TABLE_CONFIG": {
+        "ID": "ID",
+        "NAME": "Job Name",
+        "CREATE_TIME": "Create Time",
+        "UPDATE_TIME": "Update Time",
+        "STATUS": "Job Status",
+        "ACTION": "Action"
+      }
     }
+  },
+  "SEARCH_BUTTON": "Search",
+  "RESET_BUTTON": "Reset",
+  "EDIT_BUTTON": "Edit",
+  "DELETE_BUTTON": "Delete",
+  "DATE_STATUS": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
   }
 }

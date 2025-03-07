@@ -1,23 +1,22 @@
-import { Tag } from 'antd';
 import { IFormConfig } from '@/components/BaseForm/interface';
 
 const jobFormConfig: IFormConfig = {
   formItem: [
     {
       type: 'input',
-      label: '职位名',
+      label: 'SYSTEM.JOB.SEARCH_CONFIG.NAME.LABEL',
       name: 'name',
-      placeholder: '请输入职位名'
+      placeholder: 'SYSTEM.JOB.SEARCH_CONFIG.NAME.PLACEHOLDER'
     },
     {
       type: 'select',
-      label: '职位状态',
+      label: 'SYSTEM.JOB.SEARCH_CONFIG.STATUS.LABEL',
       name: 'status',
-      placeholder: '请选择职位状态',
+      placeholder: 'SYSTEM.JOB.SEARCH_CONFIG.STATUS.PLACEHOLDER',
       allowClear: true,
       options: [
-        { label: '启用', value: 1 },
-        { label: '禁用', value: 0 }
+        { label: 'DATE_STATUS.ACTIVE', value: 1 },
+        { label: 'DATE_STATUS.INACTIVE', value: 0 }
       ]
     }
   ]
@@ -26,33 +25,32 @@ const jobFormConfig: IFormConfig = {
 const jobTableConfig = {
   columns: [
     {
-      title: 'ID',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.ID',
       dataIndex: 'id',
       key: 'id'
     },
     {
-      title: '职位名',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.NAME',
       dataIndex: 'name',
       key: 'name'
     },
     {
-      title: '创建时间',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.CREATE_TIME',
       dataIndex: 'createTime',
       key: 'createTime'
     },
     {
-      title: '更新时间',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.UPDATE_TIME',
       dataIndex: 'updateTime',
       key: 'updateTime'
     },
     {
-      title: '状态',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.STATUS',
       dataIndex: 'status',
-      key: 'status',
-      render: (value: number) => (value === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">禁用</Tag>)
+      key: 'status'
     },
     {
-      title: '操作',
+      title: 'SYSTEM.JOB.TABLE_CONFIG.ACTION',
       dataIndex: 'action',
       key: 'action'
     }

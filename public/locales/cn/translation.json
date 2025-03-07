@@ -18,7 +18,33 @@
       "TITLE": "部门管理"
     },
     "JOB": {
-      "TITLE": "职位管理"
+      "TITLE": "职位管理",
+      "SEARCH_CONFIG": {
+        "NAME": {
+          "LABEL": "职位名",
+          "PLACEHOLDER": "请输入职位名"
+        },
+        "STATUS": {
+          "LABEL": "状态",
+          "PLACEHOLDER": "请选择状态"
+        }
+      },
+      "TABLE_CONFIG": {
+        "ID": "ID",
+        "NAME": "职位名",
+        "CREATE_TIME": "创建时间",
+        "UPDATE_TIME": "修改时间",
+        "STATUS": "状态",
+        "ACTION": "操作"
+      }
     }
+  },
+  "SEARCH_BUTTON": "搜索",
+  "RESET_BUTTON": "重置",
+  "EDIT_BUTTON": "编辑",
+  "DELETE_BUTTON": "删除",
+  "DATE_STATUS": {
+    "ACTIVE": "启用",
+    "INACTIVE": "禁用"
   }
 }

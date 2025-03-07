@@ -1,17 +1,19 @@
 import { memo, useEffect, useState } from 'react';
 import type { FC, ReactNode } from 'react';
 
-import { Button, FormInstance, Space } from 'antd';
+import { Button, FormInstance, Space, Tag } from 'antd';
 import { BaseForm } from '@/components/BaseForm';
 import { jobFormConfig, jobTableConfig } from './config';
 import { BaseTable } from '@/components/BaseTable';
 import { getJobListAPI, IGetJobListRequest, IJobItem } from '@/service/modules/job';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   children?: ReactNode;
 }
 
 const job: FC<IProps> = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState<IJobItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
@@ -49,12 +51,18 @@ const job: FC<IProps> = () => {
   const childrenMap = {
     action: () => (
       <Space>
-        <Button type="primary">编辑</Button>
+        <Button type="primary">{t('EDIT_BUTTON')}</Button>
         <Button type="primary" danger>
-          删除
+          {t('DELETE_BUTTON')}
         </Button>
       </Space>
-    )
+    ),
+    status: ({ status }: IJobItem) =>
+      status === 1 ? (
+        <Tag color="green">{t('DATE_STATUS.ACTIVE')}</Tag>
+      ) : (
+        <Tag color="red">{t('DATE_STATUS.INACTIVE')}</Tag>
+      )
   };
 
   return (

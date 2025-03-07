@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { Pagination, Table } from 'antd';
 import { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import BaseTableWrapper from './style';
+import { useTranslation } from 'react-i18next';
 
 interface IProps<T> {
   data: T[];
@@ -15,16 +16,18 @@ interface IProps<T> {
 }
 
 const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, loading }: IProps<T>) => {
+  const { t } = useTranslation();
   return (
     <BaseTableWrapper>
       <Table dataSource={data} loading={loading} rowKey="id" bordered pagination={false} className="base-table">
-        {columns.map(({ key, dataIndex, render: columnRender, ...rest }) => {
+        {columns.map(({ key, dataIndex, title, render: columnRender, ...rest }) => {
           if (columnRender) {
             return (
               <Table.Column
                 key={key}
                 dataIndex={dataIndex}
                 render={columnRender} // 使用 columns 中的 render
+                title={t(title as string)}
                 {...rest}
                 align="center"
               />
@@ -36,13 +39,14 @@ const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, 
               <Table.Column
                 key={key}
                 dataIndex={dataIndex}
+                title={t(title as string)}
                 {...rest}
                 align="center"
                 render={(text, record: T) => (children ? children(record) : text)}
               />
             );
           }
-          return <Table.Column key={key} dataIndex={dataIndex} {...rest} align="center" />;
+          return <Table.Column key={key} dataIndex={dataIndex} title={t(title as string)} {...rest} align="center" />;
         })}
       </Table>
       <Pagination total={total} showSizeChanger align="end" />
