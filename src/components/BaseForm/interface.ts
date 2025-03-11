@@ -1,9 +1,11 @@
+import { RuleObject } from 'antd/es/form';
+
 interface IFormItemBase {
-  type: 'input' | 'select' | 'action';
-  initialValue?: string | number | string[] | number[] | undefined;
+  type: 'input' | 'select' | 'action' | 'custom';
   name?: string;
   label?: string;
   placeholder?: string;
+  rules?: RuleObject[];
 }
 
 interface IFormItemSelect extends IFormItemBase {
@@ -23,8 +25,10 @@ interface IFormItemAction extends IFormItemBase {
 
 export type IFormItem = IFormItemInput | IFormItemSelect | IFormItemAction;
 
-export interface IFormConfig {
-  formItem: IFormItem[];
-  col?: { sm: number; md: number; lg: number } | { span: number };
+// 表单组件
+export interface IBaseForm {
+  formItems: IFormItem[];
   row?: { gutter: number };
+  col?: { span: number } | { sm: number; md: number; lg: number };
+  showButtons?: boolean;
 }

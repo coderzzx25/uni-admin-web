@@ -17,7 +17,7 @@
     "DEPARTMENT": {
       "TITLE": "部门管理"
     },
-    "JOB": {
+    "POSITION": {
       "TITLE": "职位管理",
       "SEARCH_CONFIG": {
         "NAME": {
@@ -36,6 +36,28 @@
         "UPDATE_TIME": "修改时间",
         "STATUS": "状态",
         "ACTION": "操作"
+      },
+      "MODAL_CONFIG": {
+        "TITLE": {
+          "ADD": "新增职位",
+          "EDIT": "编辑职位"
+        },
+        "FORM_CONFIG": {
+          "NAME": {
+            "LABEL": "职位名",
+            "PLACEHOLDER": "请输入职位名",
+            "VALIDATE": {
+              "REQUIRED": "职位名不能为空"
+            }
+          },
+          "STATUS": {
+            "LABEL": "状态",
+            "PLACEHOLDER": "请选择状态",
+            "VALIDATE": {
+              "REQUIRED": "状态不能为空"
+            }
+          }
+        }
       }
     }
   },
