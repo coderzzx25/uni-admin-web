@@ -30,7 +30,7 @@ const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, 
     return () => {
       window.removeEventListener('resize', updateTableScroll);
     };
-  }, [tableScroll]);
+  }, []);
   return (
     <BaseTableWrapper>
       <Table
