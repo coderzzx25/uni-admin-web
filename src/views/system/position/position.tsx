@@ -8,8 +8,10 @@ import { BaseTable } from '@/components/BaseTable';
 import useSearch from '@/hooks/useSearch/useSearch';
 import { positionSearchConfig, positionTableConfig, positionModalConfig } from './config';
 import {
+  createPositionAPI,
   editPositionAPI,
   getPositionListAPI,
+  ICreatePositionRequest,
   IGetPositionListRequest,
   IPositionItem
 } from '@/service/modules/position';
@@ -37,15 +39,23 @@ const Position: FC<IProps> = () => {
   const {
     isModalVisible,
     form: modalForm,
+    modalType,
     openModal,
     closeModal,
     handleSave
   } = useModal({
-    onSave: async (id, values) => {
-      await editPositionAPI({
-        id,
-        ...values
-      });
+    onSave: async (values, id) => {
+      if (id) {
+        // 编辑
+        await editPositionAPI({
+          id,
+          ...values
+        });
+      } else {
+        // 创建
+        const createValues = values as ICreatePositionRequest;
+        await createPositionAPI(createValues);
+      }
       await getDataList();
     },
     key: 'id'
@@ -75,7 +85,11 @@ const Position: FC<IProps> = () => {
         form={form}
         onSubmit={(values) => onClickSearch(values)}
         onReset={onClickReset}
-      />
+      >
+        <Button type="primary" color="cyan" variant="solid" onClick={() => openModal()}>
+          {t('CREATE_BUTTON')}
+        </Button>
+      </BaseForm>
       <BaseTable<IPositionItem>
         {...positionTableConfig}
         data={data}
@@ -85,7 +99,11 @@ const Position: FC<IProps> = () => {
       />
       <Modal
         open={isModalVisible}
-        title={t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.EDIT')}
+        title={
+          modalType === 'create'
+            ? t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.ADD')
+            : t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.EDIT')
+        }
         onOk={handleSave}
         onCancel={closeModal}
       >

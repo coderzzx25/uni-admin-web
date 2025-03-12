@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { Pagination, Table } from 'antd';
@@ -17,9 +17,31 @@ interface IProps<T> {
 
 const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, loading }: IProps<T>) => {
   const { t } = useTranslation();
+  const [tableScroll, setTableScroll] = useState({ y: 0 });
+  useEffect(() => {
+    const updateTableScroll = () => {
+      const availableHeight = window.innerHeight - 300;
+      setTableScroll({ y: availableHeight });
+    };
+
+    updateTableScroll();
+    window.addEventListener('resize', updateTableScroll);
+
+    return () => {
+      window.removeEventListener('resize', updateTableScroll);
+    };
+  }, [tableScroll]);
   return (
     <BaseTableWrapper>
-      <Table dataSource={data} loading={loading} rowKey="id" bordered pagination={false} className="base-table">
+      <Table
+        dataSource={data}
+        loading={loading}
+        rowKey="id"
+        bordered
+        pagination={false}
+        scroll={tableScroll}
+        className="base-table"
+      >
         {columns.map(({ key, dataIndex, title, render: columnRender, ...rest }) => {
           if (columnRender) {
             return (

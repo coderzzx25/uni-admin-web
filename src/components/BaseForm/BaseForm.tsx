@@ -55,7 +55,8 @@ const BaseForm = <T extends object = any>({
   col,
   showButtons = true,
   onSubmit,
-  onReset
+  onReset,
+  children
 }: IProps<T>) => {
   const { t } = useTranslation();
 
@@ -74,6 +75,7 @@ const BaseForm = <T extends object = any>({
                 {t('SEARCH_BUTTON')}
               </Button>
               <Button onClick={onReset}>{t('RESET_BUTTON')}</Button>
+              {children}
             </Space>
           </Col>
         )}

@@ -3,16 +3,19 @@ import { useState } from 'react';
 
 // hook接收参数
 interface IModalProps<T extends object> {
-  onSave: (key: string | number, values: Partial<T>) => Promise<void>;
+  onSave: (values: Partial<T>, key?: string | number) => Promise<void>;
   key: keyof T;
   defaultData?: T;
 }
+
+type ModalType = 'create' | 'edit';
 
 // hook返回值
 interface IModalReturn<T extends object> {
   isModalVisible: boolean;
   form: FormInstance<T>;
   currentData: T | null;
+  modalType: ModalType;
   openModal: (data?: T) => void;
   closeModal: () => void;
   handleSave: () => Promise<void>;
@@ -21,6 +24,7 @@ interface IModalReturn<T extends object> {
 const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>): IModalReturn<T> => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentData, setCurrentData] = useState(defaultData || null);
+  const [modalType, setModalType] = useState<ModalType>('create');
   const [form] = Form.useForm();
 
   /**
@@ -31,6 +35,11 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
     if (data) {
       setCurrentData(data);
       form.setFieldsValue(data);
+      setModalType('edit');
+    } else {
+      setCurrentData(null);
+      form.resetFields();
+      setModalType('create');
     }
     setIsModalVisible(true);
   };
@@ -50,7 +59,9 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
   const handleSave = async () => {
     const values = await form.validateFields();
     if (currentData && currentData[key]) {
-      await onSave(currentData[key] as string | number, values);
+      await onSave(values, currentData[key] as string | number);
+    } else {
+      await onSave(values);
     }
     closeModal();
   };
@@ -59,6 +70,7 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
     isModalVisible,
     currentData,
     form,
+    modalType,
     openModal,
     closeModal,
     handleSave

@@ -65,6 +65,7 @@
   "RESET_BUTTON": "Reset",
   "EDIT_BUTTON": "Edit",
   "DELETE_BUTTON": "Delete",
+  "CREATE_BUTTON": "Create",
   "DATE_STATUS": {
     "ACTIVE": "Active",
     "INACTIVE": "Inactive"

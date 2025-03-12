@@ -65,6 +65,7 @@
   "RESET_BUTTON": "重置",
   "EDIT_BUTTON": "编辑",
   "DELETE_BUTTON": "删除",
+  "CREATE_BUTTON": "新增",
   "DATE_STATUS": {
     "ACTIVE": "启用",
     "INACTIVE": "禁用"
