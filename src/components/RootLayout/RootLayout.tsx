@@ -4,21 +4,14 @@ import { Layout } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { TranslationOutlined } from '@ant-design/icons';
-
 import { RootLayoutWrapper } from './styled';
 import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
-import {
-  fetchUserInfo,
-  fetchUserMenus,
-  setCollapsedReducer,
-  setLanguageReducer,
-  setThemeDarkReducer
-} from '@/store/modules/user';
+import { fetchUserInfo, fetchUserMenus, setCollapsedReducer } from '@/store/modules/user';
 import { mapRouterToUrl, routerToMenu } from '@/utils/router';
 import RootMenu from '../RootMenu/RootMenu';
 import Collapsed from '../Collapsed/Collapsed';
 import ThemeDark from '../ThemeDark/ThemeDark';
+import Translation from '../Translation/Translation';
 
 interface IProps {
   children?: ReactNode;
@@ -31,7 +24,7 @@ const RootLayout: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
-  const { collapsed, userMenus, language, themeDark } = useAppSelector((state) => state.user, useAppShallowEqual);
+  const { collapsed, userMenus } = useAppSelector((state) => state.user, useAppShallowEqual);
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -62,21 +55,6 @@ const RootLayout: FC<IProps> = () => {
     dispatch(setCollapsedReducer(isCollapsed));
   };
 
-  /**
-   * 切换语言
-   */
-  const onClickLanguage = (language: string) => {
-    i18n.changeLanguage(language);
-    dispatch(setLanguageReducer(language));
-  };
-
-  /**
-   * 切换主题
-   */
-  const onClickThemeDark = (isDark: boolean) => {
-    dispatch(setThemeDarkReducer(isDark));
-  };
-
   return (
     <RootLayoutWrapper>
       <Sider collapsed={collapsed}>
@@ -88,8 +66,8 @@ const RootLayout: FC<IProps> = () => {
             <Collapsed isCollapsed={collapsed} handleCollapsed={onClickCollapsed} />
           </div>
           <div>
-            <TranslationOutlined onClick={() => onClickLanguage(language === 'cn' ? 'en' : 'cn')} />
-            <ThemeDark isDark={themeDark} handleThemeDark={onClickThemeDark} />
+            <Translation />
+            <ThemeDark />
           </div>
         </Header>
         <Content className="content">

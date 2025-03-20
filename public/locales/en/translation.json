@@ -1,4 +1,13 @@
 {
+  "LOGIN": {
+    "WELCOME": "Welcome to",
+    "USERNAME_PLACEHOLDER": "Please input your username",
+    "PASSWORD_PLACEHOLDER": "Please input your password",
+    "CAPTCHA_PLACEHOLDER": "Please input captcha",
+    "REMEMBER_ME": "Remember Me",
+    "FORGET_PASSWORD": "Forget Password",
+    "LOGIN_BUTTON": "Login"
+  },
   "DASHBOARD": "Dashboard",
   "SYSTEM": {
     "TITLE": "System",
