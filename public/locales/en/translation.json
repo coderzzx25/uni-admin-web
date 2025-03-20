@@ -17,8 +17,57 @@
     "DEPARTMENT": {
       "TITLE": "Department"
     },
-    "JOB": {
-      "TITLE": "Job"
+    "POSITION": {
+      "TITLE": "Position",
+      "SEARCH_CONFIG": {
+        "NAME": {
+          "LABEL": "Position Name",
+          "PLACEHOLDER": "Please input position name"
+        },
+        "STATUS": {
+          "LABEL": "Position Status",
+          "PLACEHOLDER": "Please select position status"
+        }
+      },
+      "TABLE_CONFIG": {
+        "ID": "ID",
+        "NAME": "Position Name",
+        "CREATE_TIME": "Create Time",
+        "UPDATE_TIME": "Update Time",
+        "STATUS": "Position Status",
+        "ACTION": "Action"
+      },
+      "MODAL_CONFIG": {
+        "TITLE": {
+          "ADD": "Add Position",
+          "EDIT": "Edit Position"
+        },
+        "FORM_CONFIG": {
+          "NAME": {
+            "LABEL": "Position Name",
+            "PLACEHOLDER": "Please input position name",
+            "VALIDATE": {
+              "REQUIRED": "Position name cannot be empty"
+            }
+          },
+          "STATUS": {
+            "LABEL": "Position Status",
+            "PLACEHOLDER": "Please select position status",
+            "VALIDATE": {
+              "REQUIRED": "Position status cannot be empty"
+            }
+          }
+        }
+      }
     }
+  },
+  "SEARCH_BUTTON": "Search",
+  "RESET_BUTTON": "Reset",
+  "EDIT_BUTTON": "Edit",
+  "DELETE_BUTTON": "Delete",
+  "CREATE_BUTTON": "Create",
+  "DATE_STATUS": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
   }
 }
