@@ -2,18 +2,20 @@ import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 
 import { MoonOutlined, SunOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
+import { setThemeDarkReducer } from '@/store/modules/user';
 
 interface IProps {
   children?: ReactNode;
-  isDark: boolean;
-  handleThemeDark?: (isDark: boolean) => void;
 }
 
-const ThemeDark: FC<IProps> = ({ isDark, handleThemeDark }) => {
+const ThemeDark: FC<IProps> = () => {
+  const dispatch = useAppDispatch();
+  const { themeDark } = useAppSelector((state) => state.user, useAppShallowEqual);
   const onClickThemeDark = () => {
-    handleThemeDark && handleThemeDark(!isDark);
+    dispatch(setThemeDarkReducer(!themeDark));
   };
-  return <>{isDark ? <SunOutlined onClick={onClickThemeDark} /> : <MoonOutlined onClick={onClickThemeDark} />}</>;
+  return <>{themeDark ? <SunOutlined onClick={onClickThemeDark} /> : <MoonOutlined onClick={onClickThemeDark} />}</>;
 };
 
 export default memo(ThemeDark);

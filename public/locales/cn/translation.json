@@ -1,4 +1,13 @@
 {
+  "LOGIN": {
+    "WELCOME": "欢迎使用",
+    "USERNAME_PLACEHOLDER": "请输入用户名",
+    "PASSWORD_PLACEHOLDER": "请输入密码",
+    "CAPTCHA_PLACEHOLDER": "请输入验证码",
+    "REMEMBER_ME": "记住我",
+    "FORGET_PASSWORD": "忘记密码",
+    "LOGIN_BUTTON": "登录"
+  },
   "DASHBOARD": "仪表盘",
   "SYSTEM": {
     "TITLE": "系统管理",

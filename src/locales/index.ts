@@ -2,7 +2,6 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import store from '@/store';
 
 i18n
   .use(Backend)
@@ -18,12 +17,5 @@ i18n
       loadPath: '/locales/{{lng}}/{{ns}}.json'
     }
   });
-
-store.subscribe(() => {
-  const currentLanguage = store.getState().user.language;
-  if (currentLanguage && currentLanguage !== i18n.language) {
-    i18n.changeLanguage(currentLanguage);
-  }
-});
 
 export default i18n;
