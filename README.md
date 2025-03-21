@@ -8,7 +8,7 @@
 
 ### 使用的技术栈
 
-1. react 19.0.0
+1. react 18.0.0
 2. typescript 5.2.2
 3. vite 5.0.8
 4. @reduxjs/toolkit 2.5.1
