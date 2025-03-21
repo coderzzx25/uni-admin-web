@@ -3,7 +3,6 @@ import request from '..';
 export interface IUserAccountLoginRequest {
   username: string;
   password: string;
-  verifyCode: string;
 }
 
 export interface IUserAccountLoginResponse {

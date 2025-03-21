@@ -1,7 +1,7 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Checkbox, Flex, Form, Image, Input, Layout, message, Typography } from 'antd';
+import { Button, Checkbox, Flex, Form, Input, Layout, message, Typography } from 'antd';
 
 import { userAccountLoginAPI } from '@/service/modules/auth';
 
@@ -23,7 +23,6 @@ const login: FC<IProps> = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [captcha, setCaptcha] = useState(`${import.meta.env.VITE_BASE_URL}/auth/captcha`);
   const [form] = Form.useForm();
   const onClickUserAccountLogin = async () => {
     // 信息校验
@@ -51,11 +50,6 @@ const login: FC<IProps> = () => {
     }
   };
 
-  // 刷新验证码
-  const onClickRefreshCaptcha = () => {
-    setCaptcha(`${import.meta.env.VITE_BASE_URL}/auth/captcha?${Date.now()}`);
-  };
-
   return (
     <LoginWrapper>
       <Header className="login-header">
@@ -76,22 +70,6 @@ const login: FC<IProps> = () => {
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: `${t('LOGIN.PASSWORD_PLACEHOLDER')}` }]}>
             <Input type="password" placeholder={t('LOGIN.PASSWORD_PLACEHOLDER')} />
-          </Form.Item>
-          <Form.Item noStyle>
-            <Flex justify="space-between" align="center">
-              <Form.Item name="verifyCode" rules={[{ required: true, message: `${t('LOGIN.CAPTCHA_PLACEHOLDER')}` }]}>
-                <Input placeholder={t('LOGIN.CAPTCHA_PLACEHOLDER')} />
-              </Form.Item>
-              <Form.Item>
-                <Image
-                  src={captcha}
-                  alt="图片验证码"
-                  className="captcha"
-                  preview={false}
-                  onClick={onClickRefreshCaptcha}
-                />
-              </Form.Item>
-            </Flex>
           </Form.Item>
           <Form.Item>
             <Flex justify="space-between" align="center">
