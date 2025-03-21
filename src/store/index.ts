@@ -3,10 +3,13 @@ import { useSelector, TypedUseSelectorHook, useDispatch, shallowEqual } from 're
 
 import userReducer from './modules/user';
 
+const devTools = import.meta.env.DEV;
+
 const store = configureStore({
   reducer: {
     user: userReducer
-  }
+  },
+  devTools: devTools
 });
 
 // 封装数据类型
