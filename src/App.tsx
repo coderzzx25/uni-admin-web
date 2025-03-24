@@ -8,6 +8,7 @@ import enUS from 'antd/lib/locale/en_US';
 import { useAppSelector, useAppShallowEqual } from './store';
 import router from './router';
 import { useTranslation } from 'react-i18next';
+import RootWatermark from './components/RootWatermark/RootWatermark';
 
 interface IProps {
   children?: ReactNode;
@@ -50,7 +51,9 @@ const App: FC<IProps> = () => {
 
   return (
     <ConfigProvider theme={themeConfig} locale={language === 'zh' ? zhCN : enUS}>
-      <RouterProvider router={router} />
+      <RootWatermark>
+        <RouterProvider router={router} />
+      </RootWatermark>
     </ConfigProvider>
   );
 };

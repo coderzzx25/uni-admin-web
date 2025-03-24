@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
-import { Button, Modal, Space, Tag } from 'antd';
+import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { BaseForm } from '@/components/BaseForm';
@@ -24,6 +24,7 @@ interface IProps {
 const Position: FC<IProps> = () => {
   // 国际化
   const { t } = useTranslation();
+  const [messageApi, contextHolder] = message.useMessage();
   // 使用搜索hook
   const { form, data, loading, total, onClickSearch, onClickReset, onPageChange, getDataList } = useSearch<
     IGetPositionListRequest,
@@ -48,14 +49,32 @@ const Position: FC<IProps> = () => {
     onSave: async (values, id) => {
       if (id) {
         // 编辑
-        await editPositionAPI({
-          id,
-          ...values
-        });
+        try {
+          await editPositionAPI({
+            id,
+            ...values
+          });
+          closeModal();
+        } catch (error: unknown) {
+          const typedError = error as Error;
+          messageApi.open({
+            content: t(typedError.message),
+            type: 'error'
+          });
+        }
       } else {
         // 创建
         const createValues = values as ICreatePositionRequest;
-        await createPositionAPI(createValues);
+        try {
+          await createPositionAPI(createValues);
+          closeModal();
+        } catch (error: unknown) {
+          const typedError = error as Error;
+          messageApi.open({
+            content: t(typedError.message),
+            type: 'error'
+          });
+        }
       }
       await getDataList();
     },
@@ -112,6 +131,8 @@ const Position: FC<IProps> = () => {
       >
         <BaseForm {...positionModalConfig} form={modalForm} />
       </Modal>
+      {/* 错误提示 */}
+      {contextHolder}
     </>
   );
 };

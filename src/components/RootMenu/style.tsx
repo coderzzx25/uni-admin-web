@@ -1,4 +1,6 @@
 import { Menu } from 'antd';
 import styled from 'styled-components';
 
-export const RootMenuWrapper = styled(Menu)``;
+export const RootMenuWrapper = styled(Menu)`
+  height: 100%;
+`;

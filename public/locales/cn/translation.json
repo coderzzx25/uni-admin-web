@@ -64,7 +64,8 @@
             "VALIDATE": {
               "REQUIRED": "状态不能为空"
             }
-          }
+          },
+          "ERROR_POSITION_NAME": "职位名称已存在"
         }
       }
     }
@@ -77,5 +78,13 @@
   "DATE_STATUS": {
     "ACTIVE": "启用",
     "INACTIVE": "禁用"
+  },
+  "ERROR_MESSAGE": {
+    "INVALID_PARAMETER": "参数错误",
+    "UPDATE_ERROR": "修改失败"
+  },
+  "SUCCESS_MESSAGE": {
+    "CREATE_SUCCESS": "新增成功",
+    "UPDATE_SUCCESS": "修改成功"
   }
 }

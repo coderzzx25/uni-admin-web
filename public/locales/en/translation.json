@@ -64,7 +64,8 @@
             "VALIDATE": {
               "REQUIRED": "Position status cannot be empty"
             }
-          }
+          },
+          "ERROR_POSITION_NAME": "Position name already exists"
         }
       }
     }
@@ -77,5 +78,13 @@
   "DATE_STATUS": {
     "ACTIVE": "Active",
     "INACTIVE": "Inactive"
+  },
+  "ERROR_MESSAGE": {
+    "INVALID_PARAMETER": "Invalid parameter",
+    "UPDATE_ERROR": "Update error"
+  },
+  "SUCCESS_MESSAGE": {
+    "CREATE_SUCCESS": "Create success",
+    "UPDATE_SUCCESS": "Update success"
   }
 }

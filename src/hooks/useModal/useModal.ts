@@ -68,7 +68,6 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
         } else {
           onSave(values);
         }
-        closeModal();
       })
       .finally(() => {
         setActionLoading(false);
