@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 
 interface IUseSearchProps<T, U> {
   defaultSearchInfo: T; // 默认搜索条件
@@ -55,7 +55,9 @@ const useSearch = <T, U>({ defaultSearchInfo, fetchData }: IUseSearchProps<T, U>
       setData(res.list);
       setTotal(res.total);
     } catch (error) {
-      console.error('Failed to fetch data:', error);
+      message.error(`获取数据失败${error}`);
+      setData([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }

@@ -16,6 +16,7 @@ interface IModalReturn<T extends object> {
   form: FormInstance<T>;
   currentData: T | null;
   modalType: ModalType;
+  actionLoading: boolean;
   openModal: (data?: T) => void;
   closeModal: () => void;
   handleSave: () => Promise<void>;
@@ -23,6 +24,7 @@ interface IModalReturn<T extends object> {
 
 const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>): IModalReturn<T> => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
   const [currentData, setCurrentData] = useState(defaultData || null);
   const [modalType, setModalType] = useState<ModalType>('create');
   const [form] = Form.useForm();
@@ -57,13 +59,20 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
    * 提交表单
    */
   const handleSave = async () => {
-    const values = await form.validateFields();
-    if (currentData && currentData[key]) {
-      await onSave(values, currentData[key] as string | number);
-    } else {
-      await onSave(values);
-    }
-    closeModal();
+    setActionLoading(true);
+    form
+      .validateFields()
+      .then((values) => {
+        if (currentData && currentData[key]) {
+          onSave(values, currentData[key] as string | number);
+        } else {
+          onSave(values);
+        }
+        closeModal();
+      })
+      .finally(() => {
+        setActionLoading(false);
+      });
   };
 
   return {
@@ -71,6 +80,7 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
     currentData,
     form,
     modalType,
+    actionLoading,
     openModal,
     closeModal,
     handleSave

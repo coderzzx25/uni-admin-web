@@ -12,6 +12,7 @@ import RootMenu from '../RootMenu/RootMenu';
 import Collapsed from '../Collapsed/Collapsed';
 import ThemeDark from '../ThemeDark/ThemeDark';
 import Translation from '../Translation/Translation';
+import RootWatermark from '../RootWatermark/RootWatermark';
 
 interface IProps {
   children?: ReactNode;
@@ -71,7 +72,9 @@ const RootLayout: FC<IProps> = () => {
           </div>
         </Header>
         <Content className="content">
-          <Outlet />
+          <RootWatermark>
+            <Outlet />
+          </RootWatermark>
         </Content>
       </Layout>
     </RootLayoutWrapper>

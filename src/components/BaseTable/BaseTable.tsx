@@ -13,9 +13,17 @@ interface IProps<T> {
   loading?: boolean;
   pagination?: false | TablePaginationConfig;
   total?: number;
+  handleChangeSize?: (page: number, pageSize: number) => void;
 }
 
-const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, loading }: IProps<T>) => {
+const BaseTable = <T extends object = any>({
+  data,
+  columns,
+  childrenMap,
+  total,
+  loading,
+  handleChangeSize
+}: IProps<T>) => {
   const { t } = useTranslation();
   const [tableScroll, setTableScroll] = useState({ y: 0 });
   useEffect(() => {
@@ -71,7 +79,12 @@ const BaseTable = <T extends object = any>({ data, columns, childrenMap, total, 
           return <Table.Column key={key} dataIndex={dataIndex} title={t(title as string)} {...rest} align="center" />;
         })}
       </Table>
-      <Pagination total={total} showSizeChanger align="end" />
+      <Pagination
+        total={total}
+        showSizeChanger
+        align="end"
+        onChange={(page, pageSize) => handleChangeSize && handleChangeSize(page, pageSize)}
+      />
     </BaseTableWrapper>
   );
 };

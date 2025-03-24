@@ -25,7 +25,7 @@ const Position: FC<IProps> = () => {
   // 国际化
   const { t } = useTranslation();
   // 使用搜索hook
-  const { form, data, loading, total, onClickSearch, onClickReset, getDataList } = useSearch<
+  const { form, data, loading, total, onClickSearch, onClickReset, onPageChange, getDataList } = useSearch<
     IGetPositionListRequest,
     IPositionItem
   >({
@@ -40,6 +40,7 @@ const Position: FC<IProps> = () => {
     isModalVisible,
     form: modalForm,
     modalType,
+    actionLoading,
     openModal,
     closeModal,
     handleSave
@@ -96,6 +97,7 @@ const Position: FC<IProps> = () => {
         loading={loading}
         childrenMap={childrenMap}
         total={total}
+        handleChangeSize={(size, pageSize) => onPageChange(size, pageSize)}
       />
       <Modal
         open={isModalVisible}
@@ -104,6 +106,7 @@ const Position: FC<IProps> = () => {
             ? t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.ADD')
             : t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.EDIT')
         }
+        confirmLoading={actionLoading}
         onOk={handleSave}
         onCancel={closeModal}
       >
