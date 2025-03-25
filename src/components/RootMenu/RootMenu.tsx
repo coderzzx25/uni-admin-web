@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 
-import type { MenuProps } from 'antd';
+import { Skeleton, type MenuProps } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -28,14 +28,20 @@ const RootMenu: FC<IProps> = ({ items, defaultSelectedKeys, mode, handleMenu }) 
   };
 
   return (
-    <RootMenuWrapper
-      defaultOpenKeys={formatPath(defaultSelectedKeys || '')}
-      defaultSelectedKeys={[defaultSelectedKeys || '']}
-      mode={mode}
-      theme="dark"
-      items={items}
-      onClick={({ key }) => handleMenu && handleMenu(key)}
-    />
+    <>
+      {!items.length ? (
+        <Skeleton active paragraph={{ rows: items.length }}></Skeleton>
+      ) : (
+        <RootMenuWrapper
+          defaultOpenKeys={formatPath(defaultSelectedKeys || '')}
+          defaultSelectedKeys={[defaultSelectedKeys || '']}
+          mode={mode}
+          theme="dark"
+          items={items}
+          onClick={({ key }) => handleMenu && handleMenu(key)}
+        />
+      )}
+    </>
   );
 };
 
