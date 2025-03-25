@@ -1,9 +1,9 @@
+import { memo } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
 import { setThemeColorReducer } from '@/store/modules/user';
 import { ColorPicker } from 'antd';
 import { Color } from 'antd/es/color-picker';
-import { memo } from 'react';
-import type { FC, ReactNode } from 'react';
 
 interface IProps {
   children?: ReactNode;
