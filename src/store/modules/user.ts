@@ -106,7 +106,13 @@ const userSlice = createSlice({
   }
 });
 
-export const { setTokenReducer, clearTokenReducer, setThemeDarkReducer, setCollapsedReducer, setLanguageReducer } =
-  userSlice.actions;
+export const {
+  setTokenReducer,
+  clearTokenReducer,
+  setThemeDarkReducer,
+  setThemeColorReducer,
+  setCollapsedReducer,
+  setLanguageReducer
+} = userSlice.actions;
 
 export default userSlice.reducer;

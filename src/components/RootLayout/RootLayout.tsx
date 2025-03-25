@@ -12,6 +12,7 @@ import RootMenu from '../RootMenu/RootMenu';
 import Collapsed from '../Collapsed/Collapsed';
 import ThemeDark from '../ThemeDark/ThemeDark';
 import Translation from '../Translation/Translation';
+import ThemeColor from '../ThemeColor/ThemeColor';
 
 interface IProps {
   children?: ReactNode;
@@ -68,6 +69,7 @@ const RootLayout: FC<IProps> = () => {
           <div>
             <Translation />
             <ThemeDark />
+            <ThemeColor />
           </div>
         </Header>
         <Content className="content">
