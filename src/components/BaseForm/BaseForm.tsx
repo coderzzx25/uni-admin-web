@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { IFormItem } from './interface';
-import { Button, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
+import { Button, Col, Form, FormInstance, Input, Row, Select, Space, TreeSelect } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
 
@@ -43,6 +43,23 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+      );
+    case 'treeSelect':
+      return (
+        <Form.Item {...commonProps}>
+          <TreeSelect
+            placeholder={item.placeholder ? t(item.placeholder) : undefined}
+            allowClear={item.allowClear}
+            treeData={item.treeData}
+            showSearch
+            treeDefaultExpandAll
+            fieldNames={{
+              label: item.fieldNames?.label || 'label',
+              value: item.fieldNames?.value || 'value',
+              children: item.fieldNames?.children || 'children'
+            }}
+          />
         </Form.Item>
       );
     default:

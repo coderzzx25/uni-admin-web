@@ -74,10 +74,15 @@ const internationalModalConfig: IBaseForm = {
   showButtons: false,
   formItems: [
     {
-      type: 'input',
+      type: 'treeSelect',
       label: 'pages.international.model.form.field.parent.label',
-      name: 'parent',
-      placeholder: 'pages.international.model.form.field.parent.placeholder'
+      name: 'parentId',
+      placeholder: 'pages.international.model.form.field.parent.placeholder',
+      treeData: [],
+      fieldNames: {
+        label: 'name',
+        value: 'id'
+      }
     },
     {
       type: 'input',

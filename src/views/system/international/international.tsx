@@ -1,5 +1,5 @@
 import { BaseForm } from '@/components/BaseForm';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { internationalModalConfig, internationalSearchConfig, internationalTableConfig } from './config';
 import useSearch from '@/hooks/useSearch/useSearch';
@@ -24,7 +24,27 @@ const international: FC<IProps> = () => {
     actionLoading,
     handleSave,
     closeModal
-  } = useModal({ onSave: async () => {}, key: 'id' });
+  } = useModal({
+    onSave: async (values) => {
+      console.log(values);
+    },
+    key: 'id'
+  });
+
+  const modelConfig = useMemo(() => {
+    return {
+      ...internationalModalConfig,
+      formItems: internationalModalConfig.formItems.map((item) => {
+        if (item.name === 'parentId') {
+          return {
+            ...item,
+            treeData: data
+          };
+        }
+        return item;
+      })
+    };
+  }, [data]);
 
   // 表格列自定义渲染
   const childrenMap = {
@@ -64,7 +84,7 @@ const international: FC<IProps> = () => {
         onOk={handleSave}
         onCancel={closeModal}
       >
-        <BaseForm {...internationalModalConfig} form={modelForm} layout="vertical"></BaseForm>
+        <BaseForm {...modelConfig} form={modelForm} layout="vertical"></BaseForm>
       </Modal>
     </>
   );
