@@ -5,5 +5,6 @@ import '@/assets/css/index.css';
 
 import RootApp from './RootApp';
 import '@/locales'; // 国际化
+import { initializeI18n } from '@/locales';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<RootApp />);
+initializeI18n().then(() => ReactDOM.createRoot(document.getElementById('root')!).render(<RootApp />));

@@ -50,7 +50,7 @@ const App: FC<IProps> = () => {
   }, [language]);
 
   return (
-    <ConfigProvider theme={themeConfig} locale={language === 'zh' ? zhCN : enUS}>
+    <ConfigProvider theme={themeConfig} locale={language === 'zhCN' ? zhCN : enUS}>
       <RootWatermark>
         <RouterProvider router={router} />
       </RootWatermark>

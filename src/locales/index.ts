@@ -1,21 +1,35 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { getAllInternationalAPI } from '@/service/modules/international';
 
-i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    lng: 'cn', // 默认语言
-    fallbackLng: 'cn', // 未找到对应语言时使用的语言
-    interpolation: {
-      escapeValue: false
-    },
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json'
-    }
-  });
+const createCustomBackend = () => ({
+  type: 'backend' as const,
+  init() {},
+  read(language: string, _namespace: string, callback: (error: any, data: any) => void) {
+    getAllInternationalAPI()
+      .then((data) => {
+        const translations = data[language] || data['zhCN'];
+        callback(null, translations);
+      })
+      .catch((error) => {
+        callback(error, null);
+      });
+  }
+});
 
-export default i18n;
+export async function initializeI18n() {
+  await i18n
+    .use(createCustomBackend())
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      lng: 'zhCN',
+      fallbackLng: 'zhCN',
+      interpolation: {
+        escapeValue: false
+      }
+    });
+
+  return i18n;
+}

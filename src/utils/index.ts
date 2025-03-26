@@ -61,3 +61,28 @@ export function throttle<F extends (...args: any[]) => any>(func: F, wait: numbe
     }
   };
 }
+
+/**
+ * 将pathname转成国际化对应的key，例如 /system/position 转成 system.position
+ * @param pathname
+ * @returns
+ */
+export const formatPathName = (pathname: string): string => {
+  return pathname
+    .split('/')
+    .filter((item) => item)
+    .map((item) => item.toLowerCase())
+    .join('.');
+};
+
+/**
+ * 统一国际化前缀
+ * @param route 路由
+ * @param suffix 后缀
+ * @param isMenu 是否是菜单
+ * @returns 国际化key
+ */
+export const i18nPrefix = (route: string, suffix = '', isMenu = false): string => {
+  const field = `${isMenu ? 'menu' : 'pages'}.${formatPathName(route)}${suffix ? '.' + suffix : ''}`;
+  return route.startsWith('global') ? route : field;
+};
