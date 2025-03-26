@@ -4,6 +4,7 @@ import { Form, message } from 'antd';
 interface IUseSearchProps<T, U> {
   defaultSearchInfo: T; // 默认搜索条件
   fetchData: (searchInfo: T) => Promise<{ list: U[]; total: number }>; // 数据请求函数
+  isPage?: boolean;
 }
 
 interface IUseModalReturn<T, U> {
@@ -18,7 +19,11 @@ interface IUseModalReturn<T, U> {
   getDataList: () => Promise<void>;
 }
 
-const useSearch = <T, U>({ defaultSearchInfo, fetchData }: IUseSearchProps<T, U>): IUseModalReturn<T, U> => {
+const useSearch = <T, U>({
+  defaultSearchInfo,
+  fetchData,
+  isPage = true
+}: IUseSearchProps<T, U>): IUseModalReturn<T, U> => {
   const [form] = Form.useForm();
   const [data, setData] = useState<U[]>([]); // 表格数据
   const [loading, setLoading] = useState<boolean>(false); // 加载状态
@@ -33,7 +38,7 @@ const useSearch = <T, U>({ defaultSearchInfo, fetchData }: IUseSearchProps<T, U>
     setSearchInfo((prev) => ({
       ...prev,
       ...values,
-      page: 1 // 重置页码
+      ...(isPage ? { page: 1 } : {}) // 重置页码
     }));
   };
 
@@ -51,9 +56,19 @@ const useSearch = <T, U>({ defaultSearchInfo, fetchData }: IUseSearchProps<T, U>
   const getDataList = async () => {
     setLoading(true);
     try {
-      const res = await fetchData(searchInfo);
-      setData(res.list);
-      setTotal(res.total);
+      const requestData = isPage
+        ? searchInfo
+        : (Object.fromEntries(
+            Object.entries(searchInfo as Record<string, any>).filter(([key]) => key !== 'page' && key !== 'size')
+          ) as T);
+
+      const res = await fetchData(requestData);
+      if (isPage) {
+        setData(res.list);
+        setTotal(res.total);
+      } else {
+        setData(res as unknown as U[]);
+      }
     } catch (error) {
       message.error(`获取数据失败${error}`);
       setData([]);
@@ -69,6 +84,7 @@ const useSearch = <T, U>({ defaultSearchInfo, fetchData }: IUseSearchProps<T, U>
    * @param size 每页条数
    */
   const onPageChange = (page: number, size: number) => {
+    if (!isPage) return;
     setSearchInfo((prev) => ({
       ...prev,
       page,

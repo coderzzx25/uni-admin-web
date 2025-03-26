@@ -6,19 +6,19 @@ const internationalSearchConfig: IBaseForm = {
   formItems: [
     {
       type: 'input',
-      label: 'SYSTEM.POSITION.SEARCH_CONFIG.NAME.LABEL',
+      label: 'pages.international.search.name.label',
       name: 'name',
-      placeholder: 'SYSTEM.POSITION.SEARCH_CONFIG.NAME.PLACEHOLDER'
+      placeholder: 'pages.international.search.name.placeholder'
     },
     {
       type: 'select',
-      label: 'SYSTEM.POSITION.SEARCH_CONFIG.STATUS.LABEL',
+      label: 'global.status.label',
       name: 'status',
-      placeholder: 'SYSTEM.POSITION.SEARCH_CONFIG.STATUS.PLACEHOLDER',
+      placeholder: 'global.status.placeholder',
       allowClear: true,
       options: [
-        { label: 'DATE_STATUS.ACTIVE', value: 1 },
-        { label: 'DATE_STATUS.INACTIVE', value: 0 }
+        { label: 'global.active', value: 1 },
+        { label: 'global.inactive', value: 0 }
       ]
     }
   ]
@@ -27,32 +27,42 @@ const internationalSearchConfig: IBaseForm = {
 const internationalTableConfig = {
   columns: [
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.ID',
+      title: 'global.table.field.title.id',
       dataIndex: 'id',
       key: 'id'
     },
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.NAME',
+      title: 'pages.international.table.field.title.name',
       dataIndex: 'name',
       key: 'name'
     },
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.CREATE_TIME',
+      title: 'pages.international.table.field.title.zhCN',
+      dataIndex: 'zhCN',
+      key: 'zhCN'
+    },
+    {
+      title: 'pages.international.table.field.title.enUS',
+      dataIndex: 'enUS',
+      key: 'enUS'
+    },
+    {
+      title: 'global.table.field.title.createTime',
       dataIndex: 'createTime',
       key: 'createTime'
     },
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.UPDATE_TIME',
+      title: 'global.table.field.title.updateTime',
       dataIndex: 'updateTime',
       key: 'updateTime'
     },
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.STATUS',
+      title: 'global.table.field.title.status',
       dataIndex: 'status',
       key: 'status'
     },
     {
-      title: 'SYSTEM.POSITION.TABLE_CONFIG.ACTION',
+      title: 'global.table.field.title.action',
       dataIndex: 'action',
       key: 'action'
     }
@@ -65,30 +75,48 @@ const internationalModalConfig: IBaseForm = {
   formItems: [
     {
       type: 'input',
-      label: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.NAME.LABEL',
+      label: 'pages.international.model.form.field.parent.label',
+      name: 'parent',
+      placeholder: 'pages.international.model.form.field.parent.placeholder'
+    },
+    {
+      type: 'input',
+      label: 'pages.international.model.form.field.name.label',
       name: 'name',
-      placeholder: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.NAME.PLACEHOLDER',
+      placeholder: 'pages.international.model.form.field.name.placeholder',
       rules: [
         {
           required: true,
-          message: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.NAME.VALIDATE.REQUIRED'
+          message: 'pages.international.model.form.field.name.placeholder'
         }
       ]
     },
     {
+      type: 'input',
+      label: 'pages.international.model.form.field.zhCN.label',
+      name: 'zhCN',
+      placeholder: 'pages.international.model.form.field.zhCN.placeholder'
+    },
+    {
+      type: 'input',
+      label: 'pages.international.model.form.field.enUS.label',
+      name: 'enUS',
+      placeholder: 'pages.international.model.form.field.enUS.placeholder'
+    },
+    {
       type: 'select',
-      label: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.STATUS.LABEL',
+      label: 'global.status.label',
       name: 'status',
-      placeholder: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.STATUS.PLACEHOLDER',
+      placeholder: 'global.status.placeholder',
       allowClear: true,
       options: [
-        { label: 'DATE_STATUS.ACTIVE', value: 1 },
-        { label: 'DATE_STATUS.INACTIVE', value: 0 }
+        { label: 'global.active', value: 1 },
+        { label: 'global.inactive', value: 0 }
       ],
       rules: [
         {
           required: true,
-          message: 'SYSTEM.POSITION.MODAL_CONFIG.FORM_CONFIG.STATUS.VALIDATE.REQUIRED'
+          message: 'global.status.placeholder'
         }
       ]
     }

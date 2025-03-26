@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { IFormItem } from './interface';
 import { Button, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { i18nPrefix } from '@/utils';
 
 interface IProps<T> {
   children?: ReactNode;
@@ -11,6 +12,7 @@ interface IProps<T> {
   row?: { gutter: number };
   col?: { span: number } | { sm: number; md: number; lg: number };
   showButtons?: boolean;
+  layout?: 'horizontal' | 'vertical' | 'inline';
   onSubmit?: (values: T) => void;
   onReset?: () => void;
 }
@@ -54,6 +56,7 @@ const BaseForm = <T extends object = any>({
   row,
   col,
   showButtons = true,
+  layout = 'horizontal',
   onSubmit,
   onReset,
   children
@@ -61,7 +64,7 @@ const BaseForm = <T extends object = any>({
   const { t } = useTranslation();
 
   return (
-    <Form form={form} onFinish={onSubmit} autoComplete="off">
+    <Form form={form} onFinish={onSubmit} layout={layout} autoComplete="off">
       <Row {...row}>
         {formItems.map((item, index) => (
           <Col key={index} {...col}>
@@ -72,9 +75,9 @@ const BaseForm = <T extends object = any>({
           <Col {...col}>
             <Space>
               <Button type="primary" htmlType="submit">
-                {t('SEARCH_BUTTON')}
+                {t(i18nPrefix('global.form.search'))}
               </Button>
-              <Button onClick={onReset}>{t('RESET_BUTTON')}</Button>
+              <Button onClick={onReset}>{t(i18nPrefix('global.form.reset'))}</Button>
               {children}
             </Space>
           </Col>

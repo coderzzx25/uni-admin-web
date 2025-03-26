@@ -14,8 +14,6 @@ export const getAllInternationalAPI = () => {
 };
 
 interface IGetInternationalListRequest {
-  page: number;
-  size: number;
   name?: string;
   status?: number;
 }
