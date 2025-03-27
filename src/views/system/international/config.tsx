@@ -12,9 +12,9 @@ const internationalSearchConfig: IBaseForm = {
     },
     {
       type: 'select',
-      label: 'global.status.label',
+      label: 'global.form.field.status.label',
       name: 'status',
-      placeholder: 'global.status.placeholder',
+      placeholder: 'global.form.field.status.placeholder',
       allowClear: true,
       options: [
         { label: 'global.active', value: 1 },
@@ -110,9 +110,9 @@ const internationalModalConfig: IBaseForm = {
     },
     {
       type: 'select',
-      label: 'global.status.label',
+      label: 'global.form.field.status.label',
       name: 'status',
-      placeholder: 'global.status.placeholder',
+      placeholder: 'global.form.field.status.placeholder',
       allowClear: true,
       options: [
         { label: 'global.active', value: 1 },
@@ -121,7 +121,7 @@ const internationalModalConfig: IBaseForm = {
       rules: [
         {
           required: true,
-          message: 'global.status.placeholder'
+          message: 'global.form.field.status.placeholder'
         }
       ]
     }
