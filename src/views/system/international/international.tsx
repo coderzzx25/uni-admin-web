@@ -103,7 +103,19 @@ const international: FC<IProps> = () => {
           <Button type="primary" size="small" onClick={() => openModal(values)}>
             {t(i18nPrefix('global.table.edit'))}
           </Button>
-          <Button size="small">{t(i18nPrefix(pathname, 'table.action.create-child'))}</Button>
+          <Button
+            size="small"
+            color="pink"
+            variant="solid"
+            onClick={() => {
+              openModal();
+              modelForm.setFieldsValue({
+                parentId: values.id
+              });
+            }}
+          >
+            {t(i18nPrefix(pathname, 'table.action.create-child'))}
+          </Button>
         </Space>
       );
     },
