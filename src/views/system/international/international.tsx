@@ -7,6 +7,7 @@ import {
   createInternationalAPI,
   editInternationalAPI,
   getInternationalListAPI,
+  getInternationalSelectAPI,
   ICreateInternationalRequest,
   IEditInternationalRequest,
   IInternationalItem
@@ -33,11 +34,12 @@ const international: FC<IProps> = () => {
     isModalVisible,
     form: modelForm,
     modalType,
-    openModal,
     actionLoading,
+    prepareData,
+    openModal,
     handleSave,
     closeModal
-  } = useModal<ICreateInternationalRequest, IEditInternationalRequest>({
+  } = useModal<ICreateInternationalRequest, IEditInternationalRequest, IInternationalItem[]>({
     onSave: async (values, id) => {
       if (id) {
         // 编辑
@@ -69,6 +71,10 @@ const international: FC<IProps> = () => {
       }
       await getDataList();
     },
+    onOpen: async () => {
+      const treeData = await getInternationalSelectAPI();
+      return treeData;
+    },
     key: 'id'
   });
 
@@ -79,13 +85,13 @@ const international: FC<IProps> = () => {
         if (item.name === 'parentId') {
           return {
             ...item,
-            treeData: data
+            treeData: prepareData ?? []
           };
         }
         return item;
       })
     };
-  }, [data]);
+  }, [prepareData]);
 
   // 表格列自定义渲染
   const childrenMap = {

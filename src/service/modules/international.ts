@@ -43,6 +43,12 @@ export const getInternationalListAPI = (data: IGetInternationalListRequest) => {
   });
 };
 
+export const getInternationalSelectAPI = () => {
+  return request.get<IInternationalItem[]>({
+    url: '/international/list'
+  });
+};
+
 export interface ICreateInternationalRequest {
   name: string;
   status: number;
