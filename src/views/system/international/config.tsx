@@ -6,9 +6,9 @@ const internationalSearchConfig: IBaseForm = {
   formItems: [
     {
       type: 'input',
-      label: 'pages.international.search.name.label',
+      label: 'pages.system.international.search.name.label',
       name: 'name',
-      placeholder: 'pages.international.search.name.placeholder'
+      placeholder: 'pages.system.international.search.name.placeholder'
     },
     {
       type: 'select',
@@ -32,17 +32,17 @@ const internationalTableConfig = {
       key: 'id'
     },
     {
-      title: 'pages.international.table.field.title.name',
+      title: 'pages.system.international.table.field.title.name',
       dataIndex: 'name',
       key: 'name'
     },
     {
-      title: 'pages.international.table.field.title.zhCN',
+      title: 'pages.system.international.table.field.title.zhCN',
       dataIndex: 'zhCN',
       key: 'zhCN'
     },
     {
-      title: 'pages.international.table.field.title.enUS',
+      title: 'pages.system.international.table.field.title.enUS',
       dataIndex: 'enUS',
       key: 'enUS'
     },
@@ -75,38 +75,39 @@ const internationalModalConfig: IBaseForm = {
   formItems: [
     {
       type: 'treeSelect',
-      label: 'pages.international.model.form.field.parent.label',
+      label: 'pages.system.international.model.form.field.parent.label',
       name: 'parentId',
-      placeholder: 'pages.international.model.form.field.parent.placeholder',
+      placeholder: 'pages.system.international.model.form.field.parent.placeholder',
       treeData: [],
       fieldNames: {
         label: 'name',
         value: 'id'
-      }
+      },
+      allowClear: true
     },
     {
       type: 'input',
-      label: 'pages.international.model.form.field.name.label',
+      label: 'pages.system.international.model.form.field.name.label',
       name: 'name',
-      placeholder: 'pages.international.model.form.field.name.placeholder',
+      placeholder: 'pages.system.international.model.form.field.name.placeholder',
       rules: [
         {
           required: true,
-          message: 'pages.international.model.form.field.name.placeholder'
+          message: 'pages.system.international.model.form.field.name.placeholder'
         }
       ]
     },
     {
       type: 'input',
-      label: 'pages.international.model.form.field.zhCN.label',
+      label: 'pages.system.international.model.form.field.zhCN.label',
       name: 'zhCN',
-      placeholder: 'pages.international.model.form.field.zhCN.placeholder'
+      placeholder: 'pages.system.international.model.form.field.zhCN.placeholder'
     },
     {
       type: 'input',
-      label: 'pages.international.model.form.field.enUS.label',
+      label: 'pages.system.international.model.form.field.enUS.label',
       name: 'enUS',
-      placeholder: 'pages.international.model.form.field.enUS.placeholder'
+      placeholder: 'pages.system.international.model.form.field.enUS.placeholder'
     },
     {
       type: 'select',

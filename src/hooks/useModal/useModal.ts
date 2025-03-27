@@ -1,4 +1,4 @@
-import { Form, FormInstance } from 'antd';
+import { Form, FormInstance, message } from 'antd';
 import { useState } from 'react';
 
 type RecursivePartial<T> = {
@@ -11,79 +11,94 @@ type RecursivePartial<T> = {
 
 type ModalType = 'create' | 'edit';
 
-interface IModalProps<CreateType, EditType extends { id: number | string }> {
+interface IModalProps<CreateType, EditType extends { id: number | string }, PrepareType> {
   onSave: (values: CreateType | Omit<EditType, 'id'>, id?: EditType['id']) => Promise<void>;
+  onOpen?: (type: ModalType, data?: EditType) => Promise<PrepareType>;
   key: keyof EditType & 'id';
   defaultData?: EditType;
 }
 
-interface IModalReturn<CreateType, EditType extends { id: number | string }> {
+interface IModalReturn<CreateType, EditType extends { id: number | string }, PrepareType> {
   isModalVisible: boolean;
   form: FormInstance<CreateType | Omit<EditType, 'id'>>;
   currentData: EditType | null;
   modalType: ModalType;
   actionLoading: boolean;
+  prepareData: PrepareType | null;
   openModal: (data?: EditType) => void;
   closeModal: () => void;
   handleSave: () => Promise<void>;
 }
 
-const useModal = <CreateType, EditType extends { id: number | string }>({
+const useModal = <CreateType, EditType extends { id: number | string }, PrePareType = null>({
   onSave,
+  onOpen,
   key,
   defaultData
-}: IModalProps<CreateType, EditType>): IModalReturn<CreateType, EditType> => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [actionLoading, setActionLoading] = useState(false);
-  const [currentData, setCurrentData] = useState<EditType | null>(defaultData || null);
-  const [modalType, setModalType] = useState<ModalType>('create');
+}: IModalProps<CreateType, EditType, PrePareType>): IModalReturn<CreateType, EditType, PrePareType> => {
+  const [state, setState] = useState({
+    isModalVisible: false,
+    actionLoading: false,
+    currentData: defaultData || null,
+    modalType: 'create' as ModalType,
+    prepareData: null as PrePareType | null
+  });
   const [form] = Form.useForm<CreateType | Omit<EditType, 'id'>>();
 
-  const openModal = (data?: EditType) => {
-    if (data) {
-      setCurrentData(data);
-      // 使用 _ 前缀表示忽略的变量
-      const { [key]: _unused, ...restData } = data;
-      // 或使用 void 操作符明确表示忽略
-      void _unused;
+  const openModal = async (data?: EditType) => {
+    try {
+      let prepareData: PrePareType | null = null;
 
-      const formValues = restData as unknown as RecursivePartial<CreateType | Omit<EditType, 'id'>>;
-      form.setFieldsValue(formValues);
-      setModalType('edit');
-    } else {
-      setCurrentData(null);
-      form.resetFields();
-      setModalType('create');
+      if (onOpen) {
+        prepareData = await onOpen(data ? 'edit' : 'create', data);
+      }
+
+      setState((prev) => ({
+        ...prev,
+        isModalVisible: true,
+        currentData: data || null,
+        modalType: data ? 'edit' : 'create',
+        prepareData
+      }));
+
+      if (data) {
+        const { [key]: _unused, ...restData } = data;
+        void _unused;
+        form.setFieldsValue(restData as unknown as RecursivePartial<CreateType | Omit<EditType, 'id'>>);
+      }
+    } catch (error: unknown) {
+      const typeError = error as Error;
+      message.error(typeError.message);
     }
-    setIsModalVisible(true);
   };
 
   const closeModal = () => {
-    setIsModalVisible(false);
-    setCurrentData(null);
+    setState((prev) => ({
+      ...prev,
+      isModalVisible: false,
+      prepareData: null
+    }));
     form.resetFields();
   };
 
   const handleSave = async () => {
-    setActionLoading(true);
     try {
+      setState((prev) => ({ ...prev, actionLoading: true }));
       const values = await form.validateFields();
-      if (modalType === 'edit' && currentData?.[key]) {
-        await onSave(values as Omit<EditType, 'id'>, currentData[key]);
+
+      if (state.modalType === 'edit' && state.currentData?.[key]) {
+        await onSave(values as Omit<EditType, 'id'>, state.currentData[key]);
       } else {
         await onSave(values as CreateType);
       }
     } finally {
-      setActionLoading(false);
+      setState((prev) => ({ ...prev, actionLoading: false }));
     }
   };
 
   return {
-    isModalVisible,
-    currentData,
+    ...state,
     form,
-    modalType,
-    actionLoading,
     openModal,
     closeModal,
     handleSave

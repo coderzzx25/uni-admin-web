@@ -7,6 +7,7 @@ import {
   createInternationalAPI,
   editInternationalAPI,
   getInternationalListAPI,
+  getInternationalSelectAPI,
   ICreateInternationalRequest,
   IEditInternationalRequest,
   IInternationalItem
@@ -16,6 +17,7 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
 import useModal from '@/hooks/useModal/useModal';
+import { useLocation } from 'react-router-dom';
 
 interface IProps {
   children?: ReactNode;
@@ -23,6 +25,7 @@ interface IProps {
 
 const international: FC<IProps> = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   const { form, data, getDataList, onClickSearch, onClickReset } = useSearch({
     defaultSearchInfo: {},
@@ -33,11 +36,12 @@ const international: FC<IProps> = () => {
     isModalVisible,
     form: modelForm,
     modalType,
-    openModal,
     actionLoading,
+    prepareData,
+    openModal,
     handleSave,
     closeModal
-  } = useModal<ICreateInternationalRequest, IEditInternationalRequest>({
+  } = useModal<ICreateInternationalRequest, IEditInternationalRequest, IInternationalItem[]>({
     onSave: async (values, id) => {
       if (id) {
         // 编辑
@@ -69,6 +73,10 @@ const international: FC<IProps> = () => {
       }
       await getDataList();
     },
+    onOpen: async () => {
+      const treeData = await getInternationalSelectAPI();
+      return treeData;
+    },
     key: 'id'
   });
 
@@ -79,21 +87,34 @@ const international: FC<IProps> = () => {
         if (item.name === 'parentId') {
           return {
             ...item,
-            treeData: data
+            treeData: prepareData ?? []
           };
         }
         return item;
       })
     };
-  }, [data]);
+  }, [prepareData]);
 
   // 表格列自定义渲染
   const childrenMap = {
     action: (values: IInternationalItem) => {
       return (
         <Space>
-          <Button type="primary" onClick={() => openModal(values)}>
+          <Button type="primary" size="small" onClick={() => openModal(values)}>
             {t(i18nPrefix('global.table.edit'))}
+          </Button>
+          <Button
+            size="small"
+            color="pink"
+            variant="solid"
+            onClick={() => {
+              openModal();
+              modelForm.setFieldsValue({
+                parentId: values.id
+              });
+            }}
+          >
+            {t(i18nPrefix(pathname, 'table.action.create-child'))}
           </Button>
         </Space>
       );
@@ -126,8 +147,8 @@ const international: FC<IProps> = () => {
       <Modal
         title={
           modalType === 'create'
-            ? t('pages.international.model.title.create')
-            : t('pages.international.model.title.edit')
+            ? t(i18nPrefix(pathname, 'model.title.create'))
+            : t(i18nPrefix(pathname, 'model.title.edit'))
         }
         open={isModalVisible}
         confirmLoading={actionLoading}
