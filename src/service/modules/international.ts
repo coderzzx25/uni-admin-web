@@ -42,3 +42,33 @@ export const getInternationalListAPI = (data: IGetInternationalListRequest) => {
     params: data
   });
 };
+
+export interface ICreateInternationalRequest {
+  name: string;
+  status: number;
+  parentId?: number;
+  zhCN?: string;
+  enUS?: string;
+}
+export const createInternationalAPI = (data: ICreateInternationalRequest) => {
+  return request.post({
+    url: '/international/create',
+    data
+  });
+};
+
+export interface IEditInternationalRequest {
+  id: number;
+  name: string;
+  status: number;
+  parentId?: number;
+  zhCN?: string;
+  enUS?: string;
+}
+
+export const editInternationalAPI = (data: IEditInternationalRequest) => {
+  return request.post({
+    url: '/international/edit',
+    data
+  });
+};

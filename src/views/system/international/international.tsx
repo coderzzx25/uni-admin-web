@@ -3,9 +3,16 @@ import { memo, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { internationalModalConfig, internationalSearchConfig, internationalTableConfig } from './config';
 import useSearch from '@/hooks/useSearch/useSearch';
-import { getInternationalListAPI, IInternationalItem } from '@/service/modules/international';
+import {
+  createInternationalAPI,
+  editInternationalAPI,
+  getInternationalListAPI,
+  ICreateInternationalRequest,
+  IEditInternationalRequest,
+  IInternationalItem
+} from '@/service/modules/international';
 import { BaseTable } from '@/components/BaseTable';
-import { Button, Modal, Space, Tag } from 'antd';
+import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
 import useModal from '@/hooks/useModal/useModal';
@@ -16,7 +23,12 @@ interface IProps {
 
 const international: FC<IProps> = () => {
   const { t } = useTranslation();
-  const { form, data } = useSearch({ defaultSearchInfo: {}, fetchData: getInternationalListAPI, isPage: false });
+  const [messageApi, contextHolder] = message.useMessage();
+  const { form, data, getDataList } = useSearch({
+    defaultSearchInfo: {},
+    fetchData: getInternationalListAPI,
+    isPage: false
+  });
   const {
     isModalVisible,
     form: modelForm,
@@ -24,9 +36,37 @@ const international: FC<IProps> = () => {
     actionLoading,
     handleSave,
     closeModal
-  } = useModal({
-    onSave: async (values) => {
-      console.log(values);
+  } = useModal<ICreateInternationalRequest, IEditInternationalRequest>({
+    onSave: async (values, id) => {
+      if (id) {
+        // 编辑
+        try {
+          await editInternationalAPI({
+            id,
+            ...values
+          });
+          closeModal();
+        } catch (error: unknown) {
+          const typedError = error as Error;
+          messageApi.open({
+            content: typedError.message,
+            type: 'error'
+          });
+        }
+      } else {
+        // 创建
+        try {
+          await createInternationalAPI(values);
+          closeModal();
+        } catch (error) {
+          const typedError = error as Error;
+          messageApi.open({
+            content: typedError.message,
+            type: 'error'
+          });
+        }
+      }
+      await getDataList();
     },
     key: 'id'
   });
@@ -86,6 +126,7 @@ const international: FC<IProps> = () => {
       >
         <BaseForm {...modelConfig} form={modelForm} layout="vertical"></BaseForm>
       </Modal>
+      {contextHolder}
     </>
   );
 };

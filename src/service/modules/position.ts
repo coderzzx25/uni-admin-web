@@ -32,10 +32,10 @@ export const getPositionListAPI = (data: IGetPositionListRequest) => {
   });
 };
 
-interface IEditPositionRequest {
+export interface IEditPositionRequest {
   id: number;
-  name?: string;
-  status?: number;
+  name: string;
+  status: number;
 }
 
 /**

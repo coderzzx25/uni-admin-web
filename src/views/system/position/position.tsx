@@ -12,6 +12,7 @@ import {
   editPositionAPI,
   getPositionListAPI,
   ICreatePositionRequest,
+  IEditPositionRequest,
   IGetPositionListRequest,
   IPositionItem
 } from '@/service/modules/position';
@@ -45,7 +46,7 @@ const Position: FC<IProps> = () => {
     openModal,
     closeModal,
     handleSave
-  } = useModal({
+  } = useModal<ICreatePositionRequest, IEditPositionRequest>({
     onSave: async (values, id) => {
       if (id) {
         // 编辑
@@ -64,9 +65,8 @@ const Position: FC<IProps> = () => {
         }
       } else {
         // 创建
-        const createValues = values as ICreatePositionRequest;
         try {
-          await createPositionAPI(createValues);
+          await createPositionAPI(values);
           closeModal();
         } catch (error: unknown) {
           const typedError = error as Error;
