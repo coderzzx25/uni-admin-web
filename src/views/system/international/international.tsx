@@ -24,7 +24,7 @@ interface IProps {
 const international: FC<IProps> = () => {
   const { t } = useTranslation();
   const [messageApi, contextHolder] = message.useMessage();
-  const { form, data, getDataList } = useSearch({
+  const { form, data, getDataList, onClickSearch, onClickReset } = useSearch({
     defaultSearchInfo: {},
     fetchData: getInternationalListAPI,
     isPage: false
@@ -107,7 +107,12 @@ const international: FC<IProps> = () => {
   };
   return (
     <>
-      <BaseForm {...internationalSearchConfig} form={form}>
+      <BaseForm
+        {...internationalSearchConfig}
+        form={form}
+        onSubmit={(values) => onClickSearch(values)}
+        onReset={onClickReset}
+      >
         <Button type="primary" color="cyan" variant="solid" onClick={() => openModal()}>
           {t('global.form.create')}
         </Button>
