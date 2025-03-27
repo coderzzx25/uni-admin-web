@@ -1,14 +1,14 @@
 import { IBaseForm } from '@/components/BaseForm';
 
-const positionSearchConfig: IBaseForm = {
+const internationalSearchConfig: IBaseForm = {
   row: { gutter: 20 },
   col: { sm: 24, md: 12, lg: 6 },
   formItems: [
     {
       type: 'input',
-      label: 'pages.position.search.name.label',
+      label: 'pages.international.search.name.label',
       name: 'name',
-      placeholder: 'pages.position.search.name.placeholder'
+      placeholder: 'pages.international.search.name.placeholder'
     },
     {
       type: 'select',
@@ -24,7 +24,7 @@ const positionSearchConfig: IBaseForm = {
   ]
 };
 
-const positionTableConfig = {
+const internationalTableConfig = {
   columns: [
     {
       title: 'global.table.field.title.id',
@@ -32,9 +32,19 @@ const positionTableConfig = {
       key: 'id'
     },
     {
-      title: 'pages.position.table.field.title.name',
+      title: 'pages.international.table.field.title.name',
       dataIndex: 'name',
       key: 'name'
+    },
+    {
+      title: 'pages.international.table.field.title.zhCN',
+      dataIndex: 'zhCN',
+      key: 'zhCN'
+    },
+    {
+      title: 'pages.international.table.field.title.enUS',
+      dataIndex: 'enUS',
+      key: 'enUS'
     },
     {
       title: 'global.table.field.title.createTime',
@@ -59,21 +69,44 @@ const positionTableConfig = {
   ]
 };
 
-const positionModalConfig: IBaseForm = {
+const internationalModalConfig: IBaseForm = {
   col: { span: 24 },
   showButtons: false,
   formItems: [
     {
+      type: 'treeSelect',
+      label: 'pages.international.model.form.field.parent.label',
+      name: 'parentId',
+      placeholder: 'pages.international.model.form.field.parent.placeholder',
+      treeData: [],
+      fieldNames: {
+        label: 'name',
+        value: 'id'
+      }
+    },
+    {
       type: 'input',
-      label: 'pages.position.model.form.field.name.label',
+      label: 'pages.international.model.form.field.name.label',
       name: 'name',
-      placeholder: 'pages.position.model.form.field.name.placeholder',
+      placeholder: 'pages.international.model.form.field.name.placeholder',
       rules: [
         {
           required: true,
-          message: 'pages.position.model.form.field.name.placeholder'
+          message: 'pages.international.model.form.field.name.placeholder'
         }
       ]
+    },
+    {
+      type: 'input',
+      label: 'pages.international.model.form.field.zhCN.label',
+      name: 'zhCN',
+      placeholder: 'pages.international.model.form.field.zhCN.placeholder'
+    },
+    {
+      type: 'input',
+      label: 'pages.international.model.form.field.enUS.label',
+      name: 'enUS',
+      placeholder: 'pages.international.model.form.field.enUS.placeholder'
     },
     {
       type: 'select',
@@ -95,4 +128,4 @@ const positionModalConfig: IBaseForm = {
   ]
 };
 
-export { positionSearchConfig, positionTableConfig, positionModalConfig };
+export { internationalSearchConfig, internationalTableConfig, internationalModalConfig };

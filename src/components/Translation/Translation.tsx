@@ -21,7 +21,7 @@ const Translation: FC<IProps> = () => {
     i18n.changeLanguage(local);
     dispatch(setLanguageReducer(local));
   };
-  return <TranslationOutlined onClick={() => onClickLanguage(language === 'zh' ? 'en' : 'zh')} />;
+  return <TranslationOutlined onClick={() => onClickLanguage(language === 'zhCN' ? 'enUS' : 'zhCN')} />;
 };
 
 export default memo(Translation);

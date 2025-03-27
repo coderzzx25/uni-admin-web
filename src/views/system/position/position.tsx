@@ -12,6 +12,7 @@ import {
   editPositionAPI,
   getPositionListAPI,
   ICreatePositionRequest,
+  IEditPositionRequest,
   IGetPositionListRequest,
   IPositionItem
 } from '@/service/modules/position';
@@ -45,7 +46,7 @@ const Position: FC<IProps> = () => {
     openModal,
     closeModal,
     handleSave
-  } = useModal({
+  } = useModal<ICreatePositionRequest, IEditPositionRequest>({
     onSave: async (values, id) => {
       if (id) {
         // 编辑
@@ -64,9 +65,8 @@ const Position: FC<IProps> = () => {
         }
       } else {
         // 创建
-        const createValues = values as ICreatePositionRequest;
         try {
-          await createPositionAPI(createValues);
+          await createPositionAPI(values);
           closeModal();
         } catch (error: unknown) {
           const typedError = error as Error;
@@ -86,16 +86,12 @@ const Position: FC<IProps> = () => {
     action: (values: IPositionItem) => (
       <Space>
         <Button type="primary" onClick={() => openModal(values)}>
-          {t('EDIT_BUTTON')}
+          {t('global.table.edit')}
         </Button>
       </Space>
     ),
     status: ({ status }: IPositionItem) =>
-      status === 1 ? (
-        <Tag color="green">{t('DATE_STATUS.ACTIVE')}</Tag>
-      ) : (
-        <Tag color="red">{t('DATE_STATUS.INACTIVE')}</Tag>
-      )
+      status === 1 ? <Tag color="green">{t('global.active')}</Tag> : <Tag color="red">{t('global.inactive')}</Tag>
   };
 
   return (
@@ -107,7 +103,7 @@ const Position: FC<IProps> = () => {
         onReset={onClickReset}
       >
         <Button type="primary" color="cyan" variant="solid" onClick={() => openModal()}>
-          {t('CREATE_BUTTON')}
+          {t('global.form.create')}
         </Button>
       </BaseForm>
       <BaseTable<IPositionItem>
@@ -120,16 +116,12 @@ const Position: FC<IProps> = () => {
       />
       <Modal
         open={isModalVisible}
-        title={
-          modalType === 'create'
-            ? t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.ADD')
-            : t('SYSTEM.POSITION.MODAL_CONFIG.TITLE.EDIT')
-        }
+        title={modalType === 'create' ? t('pages.position.model.title.create') : t('pages.position.model.title.edit')}
         confirmLoading={actionLoading}
         onOk={handleSave}
         onCancel={closeModal}
       >
-        <BaseForm {...positionModalConfig} form={modalForm} />
+        <BaseForm {...positionModalConfig} form={modalForm} layout="vertical" />
       </Modal>
       {/* 错误提示 */}
       {contextHolder}

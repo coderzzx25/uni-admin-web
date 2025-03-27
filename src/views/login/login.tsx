@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Flex, Form, Input, Layout, message, Typography } from 'antd';
 
 import { userAccountLoginAPI } from '@/service/modules/auth';
@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { localCache } from '@/utils/cache';
 import ThemeDark from '@/components/ThemeDark/ThemeDark';
 import Translation from '@/components/Translation/Translation';
+import { fetchAllLocales } from '@/store/modules/locales';
+import { i18nPrefix } from '@/utils';
 
 interface IProps {
   children?: ReactNode;
@@ -24,6 +26,11 @@ const login: FC<IProps> = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    dispatch(fetchAllLocales());
+  }, []);
   const onClickUserAccountLogin = async () => {
     // 信息校验
     const loginInfo = await form.validateFields();
@@ -57,7 +64,7 @@ const login: FC<IProps> = () => {
         <ThemeDark />
       </Header>
       <Content className="login-container">
-        <Title level={3}>{t('LOGIN.WELCOME')}</Title>
+        <Title level={3}>{t(i18nPrefix(pathname, 'welcome'))}</Title>
         <Form
           form={form}
           onFinish={onClickUserAccountLogin}
@@ -65,23 +72,29 @@ const login: FC<IProps> = () => {
           size="large"
           initialValues={{ remember: localCache.getCache('remember'), username: localCache.getCache('username') }}
         >
-          <Form.Item name="username" rules={[{ required: true, message: `${t('LOGIN.USERNAME_PLACEHOLDER')}` }]}>
-            <Input placeholder={t('LOGIN.USERNAME_PLACEHOLDER')} />
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'username.rules.required'))}` }]}
+          >
+            <Input placeholder={t(i18nPrefix(pathname, 'username.rules.required'))} />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: `${t('LOGIN.PASSWORD_PLACEHOLDER')}` }]}>
-            <Input type="password" placeholder={t('LOGIN.PASSWORD_PLACEHOLDER')} />
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'password.rules.required'))}` }]}
+          >
+            <Input type="password" placeholder={t(i18nPrefix(pathname, 'password.rules.required'))} />
           </Form.Item>
           <Form.Item>
             <Flex justify="space-between" align="center">
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>{t('LOGIN.REMEMBER_ME')}</Checkbox>
+                <Checkbox>{t(i18nPrefix(pathname, 'remember'))}</Checkbox>
               </Form.Item>
-              <a href="#">{t('LOGIN.FORGET_PASSWORD')}</a>
+              <a href="#">{t(i18nPrefix(pathname, 'forget-password'))}</a>
             </Flex>
           </Form.Item>
           <Form.Item>
             <Button type="primary" block htmlType="submit">
-              {t('LOGIN.LOGIN_BUTTON')}
+              {t(i18nPrefix(pathname, 'login-button'))}
             </Button>
           </Form.Item>
         </Form>

@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { IFormItem } from './interface';
-import { Button, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
+import { Button, Col, Form, FormInstance, Input, Row, Select, Space, TreeSelect } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { i18nPrefix } from '@/utils';
 
 interface IProps<T> {
   children?: ReactNode;
@@ -11,6 +12,7 @@ interface IProps<T> {
   row?: { gutter: number };
   col?: { span: number } | { sm: number; md: number; lg: number };
   showButtons?: boolean;
+  layout?: 'horizontal' | 'vertical' | 'inline';
   onSubmit?: (values: T) => void;
   onReset?: () => void;
 }
@@ -43,6 +45,26 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
           </Select>
         </Form.Item>
       );
+    case 'treeSelect':
+      return (
+        <Form.Item {...commonProps}>
+          <TreeSelect
+            placeholder={item.placeholder ? t(item.placeholder) : undefined}
+            allowClear={item.allowClear}
+            treeData={item.treeData}
+            showSearch
+            treeDefaultExpandAll
+            filterTreeNode={(input, node) =>
+              node[item.fieldNames?.label || 'label'].toLowerCase().includes(input.toLowerCase())
+            }
+            fieldNames={{
+              label: item.fieldNames?.label || 'label',
+              value: item.fieldNames?.value || 'value',
+              children: item.fieldNames?.children || 'children'
+            }}
+          />
+        </Form.Item>
+      );
     default:
       return null;
   }
@@ -54,6 +76,7 @@ const BaseForm = <T extends object = any>({
   row,
   col,
   showButtons = true,
+  layout = 'horizontal',
   onSubmit,
   onReset,
   children
@@ -61,7 +84,7 @@ const BaseForm = <T extends object = any>({
   const { t } = useTranslation();
 
   return (
-    <Form form={form} onFinish={onSubmit} autoComplete="off">
+    <Form form={form} onFinish={onSubmit} layout={layout} autoComplete="off">
       <Row {...row}>
         {formItems.map((item, index) => (
           <Col key={index} {...col}>
@@ -72,9 +95,9 @@ const BaseForm = <T extends object = any>({
           <Col {...col}>
             <Space>
               <Button type="primary" htmlType="submit">
-                {t('SEARCH_BUTTON')}
+                {t(i18nPrefix('global.form.search'))}
               </Button>
-              <Button onClick={onReset}>{t('RESET_BUTTON')}</Button>
+              <Button onClick={onReset}>{t(i18nPrefix('global.form.reset'))}</Button>
               {children}
             </Space>
           </Col>

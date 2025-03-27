@@ -1,42 +1,54 @@
 import { Form, FormInstance } from 'antd';
 import { useState } from 'react';
 
-// hook接收参数
-interface IModalProps<T extends object> {
-  onSave: (values: Partial<T>, key?: string | number) => Promise<void>;
-  key: keyof T;
-  defaultData?: T;
-}
+type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends Array<infer U>
+    ? Array<RecursivePartial<U>>
+    : T[P] extends object
+      ? RecursivePartial<T[P]>
+      : T[P];
+};
 
 type ModalType = 'create' | 'edit';
 
-// hook返回值
-interface IModalReturn<T extends object> {
+interface IModalProps<CreateType, EditType extends { id: number | string }> {
+  onSave: (values: CreateType | Omit<EditType, 'id'>, id?: EditType['id']) => Promise<void>;
+  key: keyof EditType & 'id';
+  defaultData?: EditType;
+}
+
+interface IModalReturn<CreateType, EditType extends { id: number | string }> {
   isModalVisible: boolean;
-  form: FormInstance<T>;
-  currentData: T | null;
+  form: FormInstance<CreateType | Omit<EditType, 'id'>>;
+  currentData: EditType | null;
   modalType: ModalType;
   actionLoading: boolean;
-  openModal: (data?: T) => void;
+  openModal: (data?: EditType) => void;
   closeModal: () => void;
   handleSave: () => Promise<void>;
 }
 
-const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>): IModalReturn<T> => {
+const useModal = <CreateType, EditType extends { id: number | string }>({
+  onSave,
+  key,
+  defaultData
+}: IModalProps<CreateType, EditType>): IModalReturn<CreateType, EditType> => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
-  const [currentData, setCurrentData] = useState(defaultData || null);
+  const [currentData, setCurrentData] = useState<EditType | null>(defaultData || null);
   const [modalType, setModalType] = useState<ModalType>('create');
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<CreateType | Omit<EditType, 'id'>>();
 
-  /**
-   * 打开弹窗
-   * @param data
-   */
-  const openModal = (data?: T) => {
+  const openModal = (data?: EditType) => {
     if (data) {
       setCurrentData(data);
-      form.setFieldsValue(data);
+      // 使用 _ 前缀表示忽略的变量
+      const { [key]: _unused, ...restData } = data;
+      // 或使用 void 操作符明确表示忽略
+      void _unused;
+
+      const formValues = restData as unknown as RecursivePartial<CreateType | Omit<EditType, 'id'>>;
+      form.setFieldsValue(formValues);
       setModalType('edit');
     } else {
       setCurrentData(null);
@@ -46,32 +58,24 @@ const useModal = <T extends object>({ onSave, key, defaultData }: IModalProps<T>
     setIsModalVisible(true);
   };
 
-  /**
-   * 关闭弹窗
-   */
   const closeModal = () => {
     setIsModalVisible(false);
     setCurrentData(null);
     form.resetFields();
   };
 
-  /**
-   * 提交表单
-   */
   const handleSave = async () => {
     setActionLoading(true);
-    form
-      .validateFields()
-      .then((values) => {
-        if (currentData && currentData[key]) {
-          onSave(values, currentData[key] as string | number);
-        } else {
-          onSave(values);
-        }
-      })
-      .finally(() => {
-        setActionLoading(false);
-      });
+    try {
+      const values = await form.validateFields();
+      if (modalType === 'edit' && currentData?.[key]) {
+        await onSave(values as Omit<EditType, 'id'>, currentData[key]);
+      } else {
+        await onSave(values as CreateType);
+      }
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   return {

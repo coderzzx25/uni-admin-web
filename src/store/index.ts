@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useSelector, TypedUseSelectorHook, useDispatch, shallowEqual } from 'react-redux';
 
 import userReducer from './modules/user';
+import localesReducer from './modules/locales';
 
 const devTools = import.meta.env.DEV;
 
 const store = configureStore({
   reducer: {
-    user: userReducer
+    user: userReducer,
+    locales: localesReducer
   },
   devTools: devTools
 });
