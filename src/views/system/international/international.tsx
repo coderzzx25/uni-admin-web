@@ -32,6 +32,7 @@ const international: FC<IProps> = () => {
   const {
     isModalVisible,
     form: modelForm,
+    modalType,
     openModal,
     actionLoading,
     handleSave,
@@ -118,7 +119,11 @@ const international: FC<IProps> = () => {
         isPagination={false}
       ></BaseTable>
       <Modal
-        title="国际化"
+        title={
+          modalType === 'create'
+            ? t('pages.international.model.title.create')
+            : t('pages.international.model.title.edit')
+        }
         open={isModalVisible}
         confirmLoading={actionLoading}
         onOk={handleSave}
