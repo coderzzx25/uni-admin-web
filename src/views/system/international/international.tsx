@@ -17,6 +17,7 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
 import useModal from '@/hooks/useModal/useModal';
+import { useLocation } from 'react-router-dom';
 
 interface IProps {
   children?: ReactNode;
@@ -24,6 +25,7 @@ interface IProps {
 
 const international: FC<IProps> = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   const { form, data, getDataList, onClickSearch, onClickReset } = useSearch({
     defaultSearchInfo: {},
@@ -98,9 +100,10 @@ const international: FC<IProps> = () => {
     action: (values: IInternationalItem) => {
       return (
         <Space>
-          <Button type="primary" onClick={() => openModal(values)}>
+          <Button type="primary" size="small" onClick={() => openModal(values)}>
             {t(i18nPrefix('global.table.edit'))}
           </Button>
+          <Button size="small">{t(i18nPrefix(pathname, 'table.action.create-child'))}</Button>
         </Space>
       );
     },
@@ -132,8 +135,8 @@ const international: FC<IProps> = () => {
       <Modal
         title={
           modalType === 'create'
-            ? t('pages.international.model.title.create')
-            : t('pages.international.model.title.edit')
+            ? t(i18nPrefix(pathname, 'model.title.create'))
+            : t(i18nPrefix(pathname, 'model.title.edit'))
         }
         open={isModalVisible}
         confirmLoading={actionLoading}

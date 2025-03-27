@@ -17,6 +17,8 @@ import {
   IPositionItem
 } from '@/service/modules/position';
 import useModal from '@/hooks/useModal/useModal';
+import { useLocation } from 'react-router-dom';
+import { i18nPrefix } from '@/utils';
 
 interface IProps {
   children?: ReactNode;
@@ -25,6 +27,7 @@ interface IProps {
 const Position: FC<IProps> = () => {
   // 国际化
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   // 使用搜索hook
   const { form, data, loading, total, onClickSearch, onClickReset, onPageChange, getDataList } = useSearch<
@@ -116,7 +119,11 @@ const Position: FC<IProps> = () => {
       />
       <Modal
         open={isModalVisible}
-        title={modalType === 'create' ? t('pages.position.model.title.create') : t('pages.position.model.title.edit')}
+        title={
+          modalType === 'create'
+            ? t(i18nPrefix(pathname, 'model.title.create'))
+            : t(i18nPrefix(pathname, 'model.title.edit'))
+        }
         confirmLoading={actionLoading}
         onOk={handleSave}
         onCancel={closeModal}

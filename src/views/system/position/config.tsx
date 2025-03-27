@@ -6,9 +6,9 @@ const positionSearchConfig: IBaseForm = {
   formItems: [
     {
       type: 'input',
-      label: 'pages.position.search.name.label',
+      label: 'pages.system.position.search.name.label',
       name: 'name',
-      placeholder: 'pages.position.search.name.placeholder'
+      placeholder: 'pages.system.position.search.name.placeholder'
     },
     {
       type: 'select',
@@ -32,7 +32,7 @@ const positionTableConfig = {
       key: 'id'
     },
     {
-      title: 'pages.position.table.field.title.name',
+      title: 'pages.system.position.table.field.title.name',
       dataIndex: 'name',
       key: 'name'
     },
@@ -65,13 +65,13 @@ const positionModalConfig: IBaseForm = {
   formItems: [
     {
       type: 'input',
-      label: 'pages.position.model.form.field.name.label',
+      label: 'pages.system.position.model.form.field.name.label',
       name: 'name',
-      placeholder: 'pages.position.model.form.field.name.placeholder',
+      placeholder: 'pages.system.position.model.form.field.name.placeholder',
       rules: [
         {
           required: true,
-          message: 'pages.position.model.form.field.name.placeholder'
+          message: 'pages.system.position.model.form.field.name.placeholder'
         }
       ]
     },
