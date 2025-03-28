@@ -1,33 +1,10 @@
-import store from '@/store';
 import { BASE_URL, TIME_OUT } from './config';
 import Request from './request';
 import { message } from 'antd';
-import { clearTokenReducer, fetchRefreshToken } from '@/store/modules/user';
-import { RequestConfig } from './request/type';
-import { AxiosHeaders } from 'axios';
+import { localCache } from '@/utils/cache';
+import { refreshTokenAPI } from './modules/auth';
 
-type FailedQueueItem = {
-  resolve: (value?: unknown) => void;
-  reject: (reason?: unknown) => void;
-  config: RequestConfig;
-};
 let isRefreshing = false;
-let failedQueue: FailedQueueItem[] = [];
-
-// 处理队列中的失败请求
-const processQueue = (error?: Error): void => {
-  failedQueue.forEach(({ resolve, reject, config }) => {
-    if (error) {
-      reject(error);
-      return;
-    }
-
-    if (config) {
-      resolve(request.instance(config));
-    }
-  });
-  failedQueue = [];
-};
 
 // 创建请求实例
 const request = new Request({
@@ -36,7 +13,7 @@ const request = new Request({
   interceptors: {
     requestSuccessFn: (config) => {
       if (!config.headers.Authorization) {
-        const token = store.getState().user.token;
+        const token = localCache.getCache('token');
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -56,40 +33,37 @@ const request = new Request({
       }
 
       const { status } = error.response;
-      const originalRequest = error.config;
 
       if (status === 401 && !isRefreshing) {
         isRefreshing = true;
+        message.info('token失效，正在刷新token，请稍后重试');
 
-        try {
-          const refreshToken = store.getState().user.refreshToken;
+        const refreshToken = localCache.getCache('refreshToken');
 
-          const retryRequest = new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject, config: originalRequest as RequestConfig });
-          });
-
-          const result = store.dispatch(fetchRefreshToken(refreshToken));
-
-          if (fetchRefreshToken.fulfilled.match(result)) {
-            const { token } = result.payload;
-
-            if (originalRequest?.headers instanceof AxiosHeaders) {
-              originalRequest.headers.set('Authorization', `Bearer ${token}`);
-            }
-
-            processQueue();
-
-            return retryRequest;
+        if (refreshToken) {
+          try {
+            const result = await refreshTokenAPI(refreshToken);
+            localCache.setCache('token', result.token);
+            localCache.setCache('refreshToken', result.refreshToken);
+            isRefreshing = false;
+            message.success('token刷新成功,请重新操作');
+          } catch (error) {
+            localCache.deleteCache('token');
+            localCache.deleteCache('refreshToken');
+            message.error('用户信息已过期,请重新登录,正在跳转到登录页');
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 1000);
+            return Promise.reject('用户信息已过期，请重新登录');
           }
-        } catch (error) {
-          // 清理用户状态
-          store.dispatch(clearTokenReducer());
-          message.error('会话已过期，请重新登录');
-          window.location.hash = '/login';
-
-          // 拒绝所有队列请求
-          processQueue(error as Error);
-          return Promise.reject(error);
+        } else {
+          localCache.deleteCache('token');
+          localCache.deleteCache('refreshToken');
+          message.error('用户信息已过期,请重新登录,正在跳转到登录页');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1000);
+          return Promise.reject('用户信息已过期，请重新登录');
         }
       }
 

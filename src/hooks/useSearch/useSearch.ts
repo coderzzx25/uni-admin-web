@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
 
 interface IUseSearchProps<T, U> {
   defaultSearchInfo: T; // 默认搜索条件
@@ -70,7 +70,6 @@ const useSearch = <T, U>({
         setData(res as unknown as U[]);
       }
     } catch (error) {
-      message.error(`${error}`);
       setData([]);
       setTotal(0);
     } finally {

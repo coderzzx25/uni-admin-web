@@ -6,7 +6,6 @@ import { Button, Checkbox, Flex, Form, Input, Layout, message, Typography } from
 import { userAccountLoginAPI } from '@/service/modules/auth';
 
 import { useAppDispatch } from '@/store';
-import { setTokenReducer } from '@/store/modules/user';
 import LoginWrapper from './style';
 import { useTranslation } from 'react-i18next';
 import { localCache } from '@/utils/cache';
@@ -48,8 +47,9 @@ const login: FC<IProps> = () => {
     try {
       // 发送网络请求
       const userInfo = await userAccountLoginAPI(loginInfo);
-      // 将token存储到redux中
-      dispatch(setTokenReducer(userInfo));
+      // 将token存储到本地中
+      localCache.setCache('token', userInfo.token);
+      localCache.setCache('refreshToken', userInfo.refreshToken);
       // 登录成功后跳转到首页
       navigate('/');
     } catch (error: any) {
