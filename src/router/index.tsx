@@ -3,7 +3,6 @@ import { lazy } from 'react';
 import { createBrowserRouter, redirect, RouteObject } from 'react-router-dom';
 
 import { loadLocalRouter } from '@/utils/router';
-import { Result } from 'antd';
 
 const RootLayout = lazy(() => import('@/components/RootLayout/RootLayout'));
 const Login = lazy(() => import('@/views/login/login'));
@@ -34,12 +33,12 @@ const routes: RouteObject[] = [
     element: <Login />
   },
   {
-    path: '/*',
+    path: '/notfound/:code',
     element: <NotFound />
   },
   {
-    path: '/500',
-    element: <Result status="500" title="500" subTitle="网络错误" />
+    path: '*',
+    element: <NotFound />
   }
 ];
 

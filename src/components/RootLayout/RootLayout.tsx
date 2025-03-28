@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
-import { Layout } from 'antd';
+import { Button, Layout, Result } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -38,7 +38,7 @@ const RootLayout: FC<IProps> = () => {
 
   useEffect(() => {
     if (router.length && !router.includes(pathname)) {
-      navigate('/not-found');
+      navigate('/not-found/404');
     }
   }, [pathname, router]);
 
@@ -55,6 +55,26 @@ const RootLayout: FC<IProps> = () => {
   const onClickCollapsed = (isCollapsed: boolean) => {
     dispatch(setCollapsedReducer(isCollapsed));
   };
+
+  const onClickReset = () => {
+    // 重新加载页面
+    window.location.reload();
+  };
+
+  if (!items.length) {
+    return (
+      <Result
+        status="500"
+        title="500"
+        subTitle="网络错误"
+        extra={
+          <Button type="primary" onClick={onClickReset}>
+            刷一下
+          </Button>
+        }
+      />
+    );
+  }
 
   return (
     <RootLayoutWrapper>

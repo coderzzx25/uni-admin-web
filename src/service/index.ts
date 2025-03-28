@@ -3,9 +3,33 @@ import { BASE_URL, TIME_OUT } from './config';
 import Request from './request';
 import { message } from 'antd';
 import { clearTokenReducer, fetchRefreshToken } from '@/store/modules/user';
+import { RequestConfig } from './request/type';
+import { AxiosHeaders } from 'axios';
 
+type FailedQueueItem = {
+  resolve: (value?: unknown) => void;
+  reject: (reason?: unknown) => void;
+  config: RequestConfig;
+};
 let isRefreshing = false;
-// 统一的请求对象
+let failedQueue: FailedQueueItem[] = [];
+
+// 处理队列中的失败请求
+const processQueue = (error?: Error): void => {
+  failedQueue.forEach(({ resolve, reject, config }) => {
+    if (error) {
+      reject(error);
+      return;
+    }
+
+    if (config) {
+      resolve(request.instance(config));
+    }
+  });
+  failedQueue = [];
+};
+
+// 创建请求实例
 const request = new Request({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
@@ -26,30 +50,50 @@ const request = new Request({
       return response.data;
     },
     responseFailureFn: async (error) => {
-      // 判断网络是否断开
+      // 处理网络错误（无响应情况）
       if (!error.response) {
-        window.location.href = '/500';
+        return Promise.reject('网络错误');
       }
 
-      // 判断token是否失效
-      const status = error.response?.status;
+      const { status } = error.response;
+      const originalRequest = error.config;
+
       if (status === 401 && !isRefreshing) {
         isRefreshing = true;
-        message.info('token失效，正在刷新token，请稍后重试');
-        const refreshToken = store.getState().user.refreshToken;
-        const result = await store.dispatch(fetchRefreshToken(refreshToken));
-        if (fetchRefreshToken.fulfilled.match(result)) {
-          message.success('token刷新成功，请重新操作');
-          isRefreshing = false;
-        } else {
-          isRefreshing = false;
-          message.error('登录信息已过期，正在跳转到登录页');
+
+        try {
+          const refreshToken = store.getState().user.refreshToken;
+
+          const retryRequest = new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject, config: originalRequest as RequestConfig });
+          });
+
+          const result = store.dispatch(fetchRefreshToken(refreshToken));
+
+          if (fetchRefreshToken.fulfilled.match(result)) {
+            const { token } = result.payload;
+
+            if (originalRequest?.headers instanceof AxiosHeaders) {
+              originalRequest.headers.set('Authorization', `Bearer ${token}`);
+            }
+
+            processQueue();
+
+            return retryRequest;
+          }
+        } catch (error) {
+          // 清理用户状态
           store.dispatch(clearTokenReducer());
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          message.error('会话已过期，请重新登录');
+          window.location.hash = '/login';
+
+          // 拒绝所有队列请求
+          processQueue(error as Error);
+          return Promise.reject(error);
         }
       }
+
+      // 其他错误处理
       return Promise.reject(error.response?.data || error.message);
     }
   }

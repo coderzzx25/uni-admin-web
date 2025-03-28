@@ -5,7 +5,6 @@ import { getAllInternationalAPI } from '@/service/modules/international';
 
 const createCustomBackend = () => ({
   type: 'backend' as const,
-  init() {},
   read(language: string, _namespace: string, callback: (error: any, data: any) => void) {
     getAllInternationalAPI()
       .then((data) => {
@@ -26,8 +25,12 @@ export async function initializeI18n() {
     .init({
       lng: 'zhCN',
       fallbackLng: 'zhCN',
+      partialBundledLanguages: true,
       interpolation: {
         escapeValue: false
+      },
+      react: {
+        useSuspense: false
       }
     });
 

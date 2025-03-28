@@ -70,7 +70,7 @@ const useSearch = <T, U>({
         setData(res as unknown as U[]);
       }
     } catch (error) {
-      message.error(`获取数据失败${error}`);
+      message.error(`${error}`);
       setData([]);
       setTotal(0);
     } finally {
