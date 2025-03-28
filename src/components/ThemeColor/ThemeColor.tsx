@@ -7,16 +7,22 @@ import { Color } from 'antd/es/color-picker';
 
 interface IProps {
   children?: ReactNode;
+  className?: string;
 }
 
-const ThemeColor: FC<IProps> = () => {
+const ThemeColor: FC<IProps> = ({ className }) => {
   const { themeColor } = useAppSelector((state) => state.user, useAppShallowEqual);
   const dispatch = useAppDispatch();
   const onChangeThemeColor = (color: Color) => {
     dispatch(setThemeColorReducer(color.toHexString()));
   };
   return (
-    <ColorPicker value={themeColor} size="small" onChangeComplete={(color) => onChangeThemeColor(color)}></ColorPicker>
+    <ColorPicker
+      className={className}
+      value={themeColor}
+      size="small"
+      onChangeComplete={(color) => onChangeThemeColor(color)}
+    ></ColorPicker>
   );
 };
 

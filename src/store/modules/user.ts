@@ -57,6 +57,13 @@ const userSlice = createSlice({
       state.language = payload;
 
       localCache.setCache('language', payload);
+    },
+    loginOutReducer(state) {
+      state.userInfo = null;
+      state.userMenus = [];
+
+      localCache.deleteCache('token');
+      localCache.deleteCache('refreshToken');
     }
   },
   extraReducers: (builder) => {
@@ -69,6 +76,7 @@ const userSlice = createSlice({
   }
 });
 
-export const { setThemeDarkReducer, setThemeColorReducer, setCollapsedReducer, setLanguageReducer } = userSlice.actions;
+export const { setThemeDarkReducer, setThemeColorReducer, setCollapsedReducer, setLanguageReducer, loginOutReducer } =
+  userSlice.actions;
 
 export default userSlice.reducer;
