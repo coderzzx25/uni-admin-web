@@ -13,6 +13,7 @@ import Collapsed from '../Collapsed/Collapsed';
 import ThemeDark from '../ThemeDark/ThemeDark';
 import Translation from '../Translation/Translation';
 import ThemeColor from '../ThemeColor/ThemeColor';
+import UserInfo from '../UserInfo/UserInfo';
 
 interface IProps {
   children?: ReactNode;
@@ -25,7 +26,7 @@ const RootLayout: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
-  const { collapsed, userMenus } = useAppSelector((state) => state.user, useAppShallowEqual);
+  const { collapsed, userMenus, userInfo, language } = useAppSelector((state) => state.user, useAppShallowEqual);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -94,10 +95,15 @@ const RootLayout: FC<IProps> = () => {
           <div>
             <Collapsed isCollapsed={collapsed} handleCollapsed={onClickCollapsed} />
           </div>
-          <div>
+          <div className="header-right">
             <Translation />
             <ThemeDark />
-            <ThemeColor />
+            <ThemeColor className="theme-color" />
+            <span id="divider"></span>
+            <UserInfo
+              name={language === 'zhCN' ? userInfo?.cnName || '' : userInfo?.enName || ''}
+              avatar={userInfo?.avatarUrl || ''}
+            />
           </div>
         </Header>
         <Content className="content">

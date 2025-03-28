@@ -22,10 +22,6 @@ const LoginWrapper = styled(Layout)`
       width: 21.875rem;
     }
   }
-
-  .captcha {
-    height: 100%;
-  }
 `;
 
 export default LoginWrapper;
