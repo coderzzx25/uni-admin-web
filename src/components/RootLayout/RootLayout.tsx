@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Button, Layout, Result } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -26,10 +26,18 @@ const RootLayout: FC<IProps> = () => {
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
   const { collapsed, userMenus } = useAppSelector((state) => state.user, useAppShallowEqual);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserInfo());
-    dispatch(fetchUserMenus());
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchUserInfo());
+        await dispatch(fetchUserMenus());
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   // 将菜单转成一维数组用于判断是否拥有目标路由权限
@@ -61,7 +69,7 @@ const RootLayout: FC<IProps> = () => {
     window.location.reload();
   };
 
-  if (!items.length) {
+  if (loading) {
     return (
       <Result
         status="500"
