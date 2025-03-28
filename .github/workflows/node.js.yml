@@ -1,13 +1,8 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Deploy with Password
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -17,33 +12,30 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Node
+    - name: Build Project
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-
-    - name: Install & Build
-      run: |
+    - run: |
         npm install
         npm run build
 
-    - name: Rsync to Server
-      uses: burnet01/rsync-deployments@5.2.4
+    - name: Upload via SCP
+      uses: appleboy/scp-action@v0.4.7
       with:
-        switches: -avz --delete
-        path: build/
-        remote_path: /nginx-data/html/uni-admin-web/
-        remote_host: ${{ secrets.SERVER_HOST }}
-        remote_user: ${{ secrets.SERVER_USER }}
-        remote_port: ${{ secrets.SERVER_PORT }}
-        remote_key: ${{ secrets.SERVER_SSH_KEY }}
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: ${{ secrets.SERVER_PORT }}
+        source: "build/*"
+        target: ${{ secrets.SERVER_TARGET }}
 
-    - name: Reload Nginx in Docker
+    - name: Restart Service
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
         port: ${{ secrets.SERVER_PORT }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           docker exec nginx-container nginx -s reload
