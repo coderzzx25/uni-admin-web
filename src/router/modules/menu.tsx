@@ -4,5 +4,8 @@ const Menu = lazy(() => import('@/views/system/menu/menu'));
 
 export default {
   path: '/system/menu',
-  element: <Menu />
+  element: <Menu />,
+  handle: {
+    title: 'router.handle.menu.title'
+  }
 };

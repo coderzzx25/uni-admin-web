@@ -13,6 +13,7 @@ import ThemeDark from '@/components/ThemeDark/ThemeDark';
 import Translation from '@/components/Translation/Translation';
 import { fetchAllLocales } from '@/store/modules/locales';
 import { i18nPrefix } from '@/utils';
+import useDocumentTitle from '@/hooks/useDocumentTitle/useDocumentTitle';
 
 interface IProps {
   children?: ReactNode;
@@ -26,6 +27,7 @@ const login: FC<IProps> = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { pathname } = useLocation();
+  useDocumentTitle();
 
   useEffect(() => {
     dispatch(fetchAllLocales());
