@@ -49,12 +49,14 @@ const internationalTableConfig = {
     {
       title: 'global.table.field.title.createTime',
       dataIndex: 'createTime',
-      key: 'createTime'
+      key: 'createTime',
+      width: 180
     },
     {
       title: 'global.table.field.title.updateTime',
       dataIndex: 'updateTime',
-      key: 'updateTime'
+      key: 'updateTime',
+      width: 180
     },
     {
       title: 'global.table.field.title.status',
@@ -64,7 +66,9 @@ const internationalTableConfig = {
     {
       title: 'global.table.field.title.action',
       dataIndex: 'action',
-      key: 'action'
+      key: 'action',
+      fixed: 'right',
+      width: 190
     }
   ]
 };
