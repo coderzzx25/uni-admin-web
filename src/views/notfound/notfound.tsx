@@ -1,6 +1,7 @@
 import { Button, Result } from 'antd';
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface IProps {
@@ -12,6 +13,7 @@ type ValidStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '5
 const notfound: FC<IProps> = () => {
   const navigate = useNavigate();
   const params = useParams();
+  const { t } = useTranslation();
   const navigateToHome = () => {
     navigate('/');
   };
@@ -23,7 +25,7 @@ const notfound: FC<IProps> = () => {
       title={status}
       extra={
         <Button type="primary" onClick={navigateToHome}>
-          回到首页
+          {t('pages.notfound.back')}
         </Button>
       }
     />
