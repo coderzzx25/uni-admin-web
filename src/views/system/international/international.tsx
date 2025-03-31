@@ -120,36 +120,18 @@ const international: FC<IProps> = () => {
       );
     },
     status: ({ status }: IInternationalItem) =>
-      status === 1 ? (
-        <Tag color="green">{t(i18nPrefix('global.active'))}</Tag>
-      ) : (
-        <Tag color="red">{t(i18nPrefix('global.inactive'))}</Tag>
-      )
+      status === 1 ? <Tag color="green">{t(i18nPrefix('global.active'))}</Tag> : <Tag color="red">{t(i18nPrefix('global.inactive'))}</Tag>
   };
   return (
     <>
-      <BaseForm
-        {...internationalSearchConfig}
-        form={form}
-        onSubmit={(values) => onClickSearch(values)}
-        onReset={onClickReset}
-      >
+      <BaseForm {...internationalSearchConfig} form={form} onSubmit={(values) => onClickSearch(values)} onReset={onClickReset}>
         <Button type="primary" color="cyan" variant="solid" onClick={() => openModal()}>
           {t('global.form.create')}
         </Button>
       </BaseForm>
-      <BaseTable<IInternationalItem>
-        {...internationalTableConfig}
-        data={data}
-        childrenMap={childrenMap}
-        isPagination={false}
-      ></BaseTable>
+      <BaseTable<IInternationalItem> {...internationalTableConfig} data={data} childrenMap={childrenMap} isPagination={false}></BaseTable>
       <Modal
-        title={
-          modalType === 'create'
-            ? t(i18nPrefix(pathname, 'model.title.create'))
-            : t(i18nPrefix(pathname, 'model.title.edit'))
-        }
+        title={modalType === 'create' ? t(i18nPrefix(pathname, 'model.title.create')) : t(i18nPrefix(pathname, 'model.title.edit'))}
         open={isModalVisible}
         confirmLoading={actionLoading}
         onOk={handleSave}

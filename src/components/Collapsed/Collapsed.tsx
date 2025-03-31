@@ -13,15 +13,7 @@ const Collapsed: FC<IProps> = ({ isCollapsed, handleCollapsed }) => {
   const onClickCollapsed = () => {
     handleCollapsed && handleCollapsed(!isCollapsed);
   };
-  return (
-    <>
-      {isCollapsed ? (
-        <MenuUnfoldOutlined onClick={onClickCollapsed} />
-      ) : (
-        <MenuFoldOutlined onClick={onClickCollapsed} />
-      )}
-    </>
-  );
+  return <>{isCollapsed ? <MenuUnfoldOutlined onClick={onClickCollapsed} /> : <MenuFoldOutlined onClick={onClickCollapsed} />}</>;
 };
 
 export default memo(Collapsed);

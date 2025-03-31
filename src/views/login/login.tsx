@@ -74,16 +74,10 @@ const login: FC<IProps> = () => {
           size="large"
           initialValues={{ remember: localCache.getCache('remember'), username: localCache.getCache('username') }}
         >
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'username.rules.required'))}` }]}
-          >
+          <Form.Item name="username" rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'username.rules.required'))}` }]}>
             <Input placeholder={t(i18nPrefix(pathname, 'username.rules.required'))} />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'password.rules.required'))}` }]}
-          >
+          <Form.Item name="password" rules={[{ required: true, message: `${t(i18nPrefix(pathname, 'password.rules.required'))}` }]}>
             <Input type="password" placeholder={t(i18nPrefix(pathname, 'password.rules.required'))} />
           </Form.Item>
           <Form.Item>

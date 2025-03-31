@@ -54,9 +54,7 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
             treeData={item.treeData}
             showSearch
             treeDefaultExpandAll
-            filterTreeNode={(input, node) =>
-              node[item.fieldNames?.label || 'label'].toLowerCase().includes(input.toLowerCase())
-            }
+            filterTreeNode={(input, node) => node[item.fieldNames?.label || 'label'].toLowerCase().includes(input.toLowerCase())}
             fieldNames={{
               label: item.fieldNames?.label || 'label',
               value: item.fieldNames?.value || 'value',

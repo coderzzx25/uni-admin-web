@@ -21,11 +21,7 @@ const mapIcon = (icon: string) => {
  * @param t 国际化方法
  * @returns Antd menu数据
  */
-export const routerToMenu = (
-  router: IUserMenuListResponse[],
-  t: (key: string) => string,
-  parentI18nName: string
-): MenuItem[] => {
+export const routerToMenu = (router: IUserMenuListResponse[], t: (key: string) => string, parentI18nName: string): MenuItem[] => {
   if (!router.length) return [];
   return router.map((item: IUserMenuListResponse) => {
     const fullI18nName = parentI18nName ? `${parentI18nName.split('.')[0]}.${item.i18nName}` : item.i18nName;

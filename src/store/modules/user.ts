@@ -76,7 +76,6 @@ const userSlice = createSlice({
   }
 });
 
-export const { setThemeDarkReducer, setThemeColorReducer, setCollapsedReducer, setLanguageReducer, loginOutReducer } =
-  userSlice.actions;
+export const { setThemeDarkReducer, setThemeColorReducer, setCollapsedReducer, setLanguageReducer, loginOutReducer } = userSlice.actions;
 
 export default userSlice.reducer;

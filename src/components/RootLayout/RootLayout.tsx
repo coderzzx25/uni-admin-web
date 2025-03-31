@@ -108,10 +108,7 @@ const RootLayout: FC<IProps> = () => {
             <ThemeDark />
             <ThemeColor className="theme-color" />
             <span id="divider"></span>
-            <UserInfo
-              name={language === 'zhCN' ? userInfo?.cnName || '' : userInfo?.enName || ''}
-              avatar={userInfo?.avatarUrl || ''}
-            />
+            <UserInfo name={language === 'zhCN' ? userInfo?.cnName || '' : userInfo?.enName || ''} avatar={userInfo?.avatarUrl || ''} />
           </div>
         </Header>
         <Content className="content">

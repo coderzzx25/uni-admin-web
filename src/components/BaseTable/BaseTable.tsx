@@ -43,15 +43,7 @@ const BaseTable = <T extends object = any>({
   }, []);
   return (
     <BaseTableWrapper>
-      <Table
-        dataSource={data}
-        loading={loading}
-        rowKey="id"
-        bordered
-        pagination={false}
-        scroll={tableScroll}
-        className="base-table"
-      >
+      <Table dataSource={data} loading={loading} rowKey="id" bordered pagination={false} scroll={tableScroll} className="base-table">
         {columns.map(({ key, dataIndex, title, render: columnRender, ...rest }) => {
           if (columnRender) {
             return (

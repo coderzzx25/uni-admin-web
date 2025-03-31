@@ -5,13 +5,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 /**
  * 获取所有国际化语言
  */
-export const fetchAllLocales = createAsyncThunk<IGetAllInternationalResponse, void>(
-  'locales/fetchAllLocales',
-  async () => {
-    const result = await getAllInternationalAPI();
-    return result;
-  }
-);
+export const fetchAllLocales = createAsyncThunk<IGetAllInternationalResponse, void>('locales/fetchAllLocales', async () => {
+  const result = await getAllInternationalAPI();
+  return result;
+});
 
 interface ILocalesState {
   allLocales: IGetAllInternationalResponse | null;

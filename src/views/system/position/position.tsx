@@ -99,12 +99,7 @@ const Position: FC<IProps> = () => {
 
   return (
     <>
-      <BaseForm
-        {...positionSearchConfig}
-        form={form}
-        onSubmit={(values) => onClickSearch(values)}
-        onReset={onClickReset}
-      >
+      <BaseForm {...positionSearchConfig} form={form} onSubmit={(values) => onClickSearch(values)} onReset={onClickReset}>
         <Button type="primary" color="cyan" variant="solid" onClick={() => openModal()}>
           {t('global.form.create')}
         </Button>
@@ -119,11 +114,7 @@ const Position: FC<IProps> = () => {
       />
       <Modal
         open={isModalVisible}
-        title={
-          modalType === 'create'
-            ? t(i18nPrefix(pathname, 'model.title.create'))
-            : t(i18nPrefix(pathname, 'model.title.edit'))
-        }
+        title={modalType === 'create' ? t(i18nPrefix(pathname, 'model.title.create')) : t(i18nPrefix(pathname, 'model.title.edit'))}
         confirmLoading={actionLoading}
         onOk={handleSave}
         onCancel={closeModal}
