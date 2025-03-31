@@ -4,5 +4,8 @@ const Role = lazy(() => import('@/views/system/role/role'));
 
 export default {
   path: '/system/role',
-  element: <Role />
+  element: <Role />,
+  handle: {
+    title: 'router.handle.role.title'
+  }
 };

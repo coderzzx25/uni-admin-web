@@ -4,5 +4,8 @@ const International = lazy(() => import('@/views/system/international/internatio
 
 export default {
   path: '/system/international',
-  element: <International />
+  element: <International />,
+  handle: {
+    title: 'router.handle.international.title'
+  }
 };

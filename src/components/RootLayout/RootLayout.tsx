@@ -14,6 +14,7 @@ import ThemeDark from '../ThemeDark/ThemeDark';
 import Translation from '../Translation/Translation';
 import ThemeColor from '../ThemeColor/ThemeColor';
 import UserInfo from '../UserInfo/UserInfo';
+import useDocumentTitle from '@/hooks/useDocumentTitle/useDocumentTitle';
 
 interface IProps {
   children?: ReactNode;
@@ -22,6 +23,7 @@ interface IProps {
 const { Sider, Header, Content } = Layout;
 
 const RootLayout: FC<IProps> = () => {
+  useDocumentTitle();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

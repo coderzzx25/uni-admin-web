@@ -27,15 +27,24 @@ const routes: RouteObject[] = [
   },
   {
     path: '/login',
-    element: <Login />
+    element: <Login />,
+    handle: {
+      title: 'router.handle.login.title'
+    }
   },
   {
     path: '/notfound/:code',
-    element: <NotFound />
+    element: <NotFound />,
+    handle: {
+      title: 'router.handle.notfound.title'
+    }
   },
   {
     path: '*',
-    element: <NotFound />
+    element: <NotFound />,
+    handle: {
+      title: 'router.handle.notfound.title'
+    }
   }
 ];
 
