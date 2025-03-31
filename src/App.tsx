@@ -31,8 +31,11 @@ const App: FC<IProps> = () => {
         Layout: {
           headerPadding: '0 1.25rem',
           headerBg: themeDark ? darkColor : lightColor,
-          siderBg: themeDark ? darkColor : lightColor,
+          siderBg: themeDark ? darkColor : '#ffffff',
           bodyBg: themeDark ? darkColor : lightColor
+        },
+        Menu: {
+          activeBarBorderWidth: 0 // 指示条边框宽度
         }
       }
     }),

@@ -1,8 +1,9 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import type { FC, ReactNode } from 'react';
-import { Button, Layout, Result } from 'antd';
+import { Button, Layout, Result, Typography } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
 import { RootLayoutWrapper } from './styled';
 import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
@@ -21,6 +22,7 @@ interface IProps {
 }
 
 const { Sider, Header, Content } = Layout;
+const { Text } = Typography;
 
 const RootLayout: FC<IProps> = () => {
   useDocumentTitle();
@@ -90,6 +92,10 @@ const RootLayout: FC<IProps> = () => {
   return (
     <RootLayoutWrapper>
       <Sider collapsed={collapsed}>
+        <div className="logo">
+          <img src="/logo.png" alt="logo" />
+          <Text className={classNames({ hidden: collapsed })}>Uni Admin</Text>
+        </div>
         <RootMenu items={items} mode="inline" defaultSelectedKeys={pathname} handleMenu={onClickMenu} />
       </Sider>
       <Layout>
