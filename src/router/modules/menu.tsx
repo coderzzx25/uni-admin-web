@@ -6,6 +6,6 @@ export default {
   path: '/system/menu',
   element: <Menu />,
   handle: {
-    title: 'router.handle.menu.title'
+    title: 'router.handle.system.menu.title'
   }
 };

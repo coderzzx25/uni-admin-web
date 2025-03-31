@@ -6,6 +6,6 @@ export default {
   path: '/system/permission',
   element: <Permission />,
   handle: {
-    title: 'router.handle.permission.title'
+    title: 'router.handle.system.permission.title'
   }
 };

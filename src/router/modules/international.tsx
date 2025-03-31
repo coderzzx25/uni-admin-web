@@ -6,6 +6,6 @@ export default {
   path: '/system/international',
   element: <International />,
   handle: {
-    title: 'router.handle.international.title'
+    title: 'router.handle.system.international.title'
   }
 };

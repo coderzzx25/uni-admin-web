@@ -6,6 +6,6 @@ export default {
   path: '/system/department',
   element: <Department />,
   handle: {
-    title: 'router.handle.department.title'
+    title: 'router.handle.system.department.title'
   }
 };

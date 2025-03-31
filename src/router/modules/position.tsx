@@ -6,6 +6,6 @@ export default {
   path: '/system/position',
   element: <Position />,
   handle: {
-    title: 'router.handle.position.title'
+    title: 'router.handle.system.position.title'
   }
 };

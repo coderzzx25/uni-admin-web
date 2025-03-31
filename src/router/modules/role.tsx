@@ -6,6 +6,6 @@ export default {
   path: '/system/role',
   element: <Role />,
   handle: {
-    title: 'router.handle.role.title'
+    title: 'router.handle.system.role.title'
   }
 };

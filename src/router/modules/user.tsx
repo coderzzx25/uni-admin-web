@@ -6,6 +6,6 @@ export default {
   path: '/system/user',
   element: <User />,
   handle: {
-    title: 'router.handle.user.title'
+    title: 'router.handle.system.user.title'
   }
 };
