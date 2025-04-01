@@ -15,6 +15,15 @@ export interface IPositionItem {
   children?: IPositionItem[];
 }
 
+export const getAllPositionSelectAPI = () => {
+  return request.get<IPositionItem[]>({
+    url: '/position/list',
+    params: {
+      status: 1
+    }
+  });
+};
+
 /**
  * 获取职位列表
  * @param data - 请求参数
@@ -30,6 +39,7 @@ export const getPositionListAPI = (data: IGetPositionListRequest) => {
 export interface IEditPositionRequest {
   id: number;
   name: string;
+  parentId?: number;
   status: number;
 }
 

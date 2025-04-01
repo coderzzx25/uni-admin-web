@@ -64,6 +64,18 @@ const positionModalConfig: IBaseForm = {
   showButtons: false,
   formItems: [
     {
+      type: 'treeSelect',
+      label: 'pages.system.position.model.form.field.parent.label',
+      name: 'parentId',
+      placeholder: 'pages.system.position.model.form.field.parent.placeholder',
+      fieldNames: {
+        label: 'name',
+        value: 'id'
+      },
+      allowClear: true,
+      treeData: []
+    },
+    {
       type: 'input',
       label: 'pages.system.position.model.form.field.name.label',
       name: 'name',

@@ -114,7 +114,7 @@ const international: FC<IProps> = () => {
               });
             }}
           >
-            {t(i18nPrefix(pathname, 'table.action.create-child'))}
+            {t('global.table.create-child')}
           </Button>
         </Space>
       );
