@@ -1,8 +1,6 @@
 import request from '..';
 
 export interface IGetPositionListRequest {
-  page: number;
-  size: number;
   name?: string;
   status?: number;
 }
@@ -13,11 +11,8 @@ export interface IPositionItem {
   createTime: string;
   updateTime: string;
   status: number;
-}
-
-interface IGetPositionListResponse {
-  list: IPositionItem[];
-  total: number;
+  parentId?: number;
+  children?: IPositionItem[];
 }
 
 /**
@@ -26,7 +21,7 @@ interface IGetPositionListResponse {
  * @returns - 职位列表
  */
 export const getPositionListAPI = (data: IGetPositionListRequest) => {
-  return request.get<IGetPositionListResponse>({
+  return request.get<IPositionItem[]>({
     url: '/position/list',
     params: data
   });

@@ -3,7 +3,7 @@ import { Form } from 'antd';
 
 interface IUseSearchProps<T, U> {
   defaultSearchInfo: T; // 默认搜索条件
-  fetchData: (searchInfo: T) => Promise<{ list: U[]; total: number }>; // 数据请求函数
+  fetchData: (searchInfo: T) => Promise<{ list: U[]; total: number } | U[]>; // 数据请求函数
   isPage?: boolean;
 }
 
@@ -57,7 +57,7 @@ const useSearch = <T, U>({ defaultSearchInfo, fetchData, isPage = true }: IUseSe
         : (Object.fromEntries(Object.entries(searchInfo as Record<string, any>).filter(([key]) => key !== 'page' && key !== 'size')) as T);
 
       const res = await fetchData(requestData);
-      if (isPage) {
+      if (isPage && 'list' in res) {
         setData(res.list);
         setTotal(res.total);
       } else {

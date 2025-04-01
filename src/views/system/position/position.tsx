@@ -30,15 +30,10 @@ const Position: FC<IProps> = () => {
   const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   // 使用搜索hook
-  const { form, data, loading, total, onClickSearch, onClickReset, onPageChange, getDataList } = useSearch<
-    IGetPositionListRequest,
-    IPositionItem
-  >({
-    defaultSearchInfo: {
-      page: 1,
-      size: 10
-    },
-    fetchData: getPositionListAPI
+  const { form, data, loading, onClickSearch, onClickReset, getDataList } = useSearch<IGetPositionListRequest, IPositionItem>({
+    defaultSearchInfo: {},
+    fetchData: getPositionListAPI,
+    isPage: false
   });
 
   const {
@@ -104,14 +99,7 @@ const Position: FC<IProps> = () => {
           {t('global.form.create')}
         </Button>
       </BaseForm>
-      <BaseTable<IPositionItem>
-        {...positionTableConfig}
-        data={data}
-        loading={loading}
-        childrenMap={childrenMap}
-        total={total}
-        handleChangeSize={(size, pageSize) => onPageChange(size, pageSize)}
-      />
+      <BaseTable<IPositionItem> {...positionTableConfig} data={data} loading={loading} childrenMap={childrenMap} isPagination={false} />
       <Modal
         open={isModalVisible}
         title={modalType === 'create' ? t(i18nPrefix(pathname, 'model.title.create')) : t(i18nPrefix(pathname, 'model.title.edit'))}

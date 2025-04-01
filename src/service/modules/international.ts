@@ -31,13 +31,8 @@ export interface IInternationalItem {
   children?: IInternationalItem[];
 }
 
-interface IGetInternationalListResponse {
-  list: IInternationalItem[];
-  total: number;
-}
-
 export const getInternationalListAPI = (data: IGetInternationalListRequest) => {
-  return request.get<IGetInternationalListResponse>({
+  return request.get<IInternationalItem[]>({
     url: '/international/list',
     params: data
   });
