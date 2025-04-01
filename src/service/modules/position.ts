@@ -58,6 +58,7 @@ export const editPositionAPI = (data: IEditPositionRequest) => {
 export interface ICreatePositionRequest {
   name: string;
   status: number;
+  parentId?: number;
 }
 /**
  * 创建职位
