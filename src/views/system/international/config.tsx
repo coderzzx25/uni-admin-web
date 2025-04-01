@@ -1,4 +1,6 @@
 import { IBaseForm } from '@/components/BaseForm';
+import { IInternationalItem } from '@/service/modules/international';
+import { ColumnsType } from 'antd/es/table';
 
 const internationalSearchConfig: IBaseForm = {
   row: { gutter: 20 },
@@ -24,7 +26,7 @@ const internationalSearchConfig: IBaseForm = {
   ]
 };
 
-const internationalTableConfig = {
+const internationalTableConfig: { columns: ColumnsType<IInternationalItem> } = {
   columns: [
     {
       title: 'global.table.field.title.id',
