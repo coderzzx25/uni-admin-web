@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import { positionSearchConfig, positionTableConfig, positionModalConfig } from '
 import {
   createPositionAPI,
   editPositionAPI,
+  getAllPositionSelectAPI,
   getPositionListAPI,
   ICreatePositionRequest,
   IEditPositionRequest,
@@ -30,26 +31,22 @@ const Position: FC<IProps> = () => {
   const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   // 使用搜索hook
-  const { form, data, loading, total, onClickSearch, onClickReset, onPageChange, getDataList } = useSearch<
-    IGetPositionListRequest,
-    IPositionItem
-  >({
-    defaultSearchInfo: {
-      page: 1,
-      size: 10
-    },
-    fetchData: getPositionListAPI
+  const { form, data, loading, onClickSearch, onClickReset, getDataList } = useSearch<IGetPositionListRequest, IPositionItem>({
+    defaultSearchInfo: {},
+    fetchData: getPositionListAPI,
+    isPage: false
   });
 
   const {
     isModalVisible,
     form: modalForm,
     modalType,
+    prepareData,
     actionLoading,
     openModal,
     closeModal,
     handleSave
-  } = useModal<ICreatePositionRequest, IEditPositionRequest>({
+  } = useModal<ICreatePositionRequest, IEditPositionRequest, IPositionItem[]>({
     onSave: async (values, id) => {
       if (id) {
         // 编辑
@@ -81,15 +78,47 @@ const Position: FC<IProps> = () => {
       }
       await getDataList();
     },
+    onOpen: async () => {
+      const treeData = await getAllPositionSelectAPI();
+      return treeData;
+    },
     key: 'id'
   });
+
+  const modelConfig = useMemo(() => {
+    return {
+      ...positionModalConfig,
+      formItems: positionModalConfig.formItems.map((item) => {
+        if (item.name === 'parentId') {
+          return {
+            ...item,
+            treeData: prepareData ?? []
+          };
+        }
+        return item;
+      })
+    };
+  }, [prepareData]);
 
   // 表格列自定义渲染
   const childrenMap = {
     action: (values: IPositionItem) => (
       <Space>
-        <Button type="primary" onClick={() => openModal(values)}>
+        <Button size="small" type="primary" onClick={() => openModal(values)}>
           {t('global.table.edit')}
+        </Button>
+        <Button
+          size="small"
+          color="pink"
+          variant="solid"
+          onClick={() => {
+            openModal();
+            modalForm.setFieldsValue({
+              parentId: values.id
+            });
+          }}
+        >
+          {t('global.table.create-child')}
         </Button>
       </Space>
     ),
@@ -104,14 +133,7 @@ const Position: FC<IProps> = () => {
           {t('global.form.create')}
         </Button>
       </BaseForm>
-      <BaseTable<IPositionItem>
-        {...positionTableConfig}
-        data={data}
-        loading={loading}
-        childrenMap={childrenMap}
-        total={total}
-        handleChangeSize={(size, pageSize) => onPageChange(size, pageSize)}
-      />
+      <BaseTable<IPositionItem> {...positionTableConfig} data={data} loading={loading} childrenMap={childrenMap} isPagination={false} />
       <Modal
         open={isModalVisible}
         title={modalType === 'create' ? t(i18nPrefix(pathname, 'model.title.create')) : t(i18nPrefix(pathname, 'model.title.edit'))}
@@ -119,7 +141,7 @@ const Position: FC<IProps> = () => {
         onOk={handleSave}
         onCancel={closeModal}
       >
-        <BaseForm {...positionModalConfig} form={modalForm} layout="vertical" />
+        <BaseForm {...modelConfig} form={modalForm} layout="vertical" />
       </Modal>
       {/* 错误提示 */}
       {contextHolder}

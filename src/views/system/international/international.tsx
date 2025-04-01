@@ -27,7 +27,7 @@ const international: FC<IProps> = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
-  const { form, data, getDataList, onClickSearch, onClickReset } = useSearch({
+  const { form, data, loading, getDataList, onClickSearch, onClickReset } = useSearch({
     defaultSearchInfo: {},
     fetchData: getInternationalListAPI,
     isPage: false
@@ -114,7 +114,7 @@ const international: FC<IProps> = () => {
               });
             }}
           >
-            {t(i18nPrefix(pathname, 'table.action.create-child'))}
+            {t('global.table.create-child')}
           </Button>
         </Space>
       );
@@ -129,7 +129,13 @@ const international: FC<IProps> = () => {
           {t('global.form.create')}
         </Button>
       </BaseForm>
-      <BaseTable<IInternationalItem> {...internationalTableConfig} data={data} childrenMap={childrenMap} isPagination={false}></BaseTable>
+      <BaseTable<IInternationalItem>
+        {...internationalTableConfig}
+        loading={loading}
+        data={data}
+        childrenMap={childrenMap}
+        isPagination={false}
+      ></BaseTable>
       <Modal
         title={modalType === 'create' ? t(i18nPrefix(pathname, 'model.title.create')) : t(i18nPrefix(pathname, 'model.title.edit'))}
         open={isModalVisible}

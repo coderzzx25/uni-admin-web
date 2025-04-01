@@ -1,8 +1,6 @@
 import request from '..';
 
 export interface IGetPositionListRequest {
-  page: number;
-  size: number;
   name?: string;
   status?: number;
 }
@@ -13,12 +11,18 @@ export interface IPositionItem {
   createTime: string;
   updateTime: string;
   status: number;
+  parentId?: number;
+  children?: IPositionItem[];
 }
 
-interface IGetPositionListResponse {
-  list: IPositionItem[];
-  total: number;
-}
+export const getAllPositionSelectAPI = () => {
+  return request.get<IPositionItem[]>({
+    url: '/position/list',
+    params: {
+      status: 1
+    }
+  });
+};
 
 /**
  * 获取职位列表
@@ -26,7 +30,7 @@ interface IGetPositionListResponse {
  * @returns - 职位列表
  */
 export const getPositionListAPI = (data: IGetPositionListRequest) => {
-  return request.get<IGetPositionListResponse>({
+  return request.get<IPositionItem[]>({
     url: '/position/list',
     params: data
   });
@@ -35,6 +39,7 @@ export const getPositionListAPI = (data: IGetPositionListRequest) => {
 export interface IEditPositionRequest {
   id: number;
   name: string;
+  parentId?: number;
   status: number;
 }
 
