@@ -105,7 +105,7 @@ const Position: FC<IProps> = () => {
     action: (values: IPositionItem) => (
       <Space>
         <Button size="small" type="primary" onClick={() => openModal(values)}>
-          {t('global.table.edit')}
+          {t('global.table.action.edit')}
         </Button>
         <Button
           size="small"
@@ -118,7 +118,7 @@ const Position: FC<IProps> = () => {
             });
           }}
         >
-          {t('global.table.create-child')}
+          {t('global.table.action.create-child')}
         </Button>
       </Space>
     ),

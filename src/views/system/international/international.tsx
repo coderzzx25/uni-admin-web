@@ -101,7 +101,7 @@ const international: FC<IProps> = () => {
       return (
         <Space>
           <Button type="primary" size="small" onClick={() => openModal(values)}>
-            {t(i18nPrefix('global.table.edit'))}
+            {t(i18nPrefix('global.table.action.edit'))}
           </Button>
           <Button
             size="small"
@@ -114,7 +114,7 @@ const international: FC<IProps> = () => {
               });
             }}
           >
-            {t('global.table.create-child')}
+            {t('global.table.action.create-child')}
           </Button>
         </Space>
       );
