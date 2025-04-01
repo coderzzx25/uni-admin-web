@@ -21,7 +21,7 @@ interface IGetInternationalListRequest {
 export interface IInternationalItem {
   id: number;
   name: string;
-  parentId: number;
+  parentId?: number;
   zhCN: string;
   enUS: string;
   founder: number;
@@ -40,7 +40,10 @@ export const getInternationalListAPI = (data: IGetInternationalListRequest) => {
 
 export const getInternationalSelectAPI = () => {
   return request.get<IInternationalItem[]>({
-    url: '/international/list'
+    url: '/international/list',
+    params: {
+      status: 1
+    }
   });
 };
 
