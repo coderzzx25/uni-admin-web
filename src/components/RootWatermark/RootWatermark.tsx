@@ -9,7 +9,11 @@ interface IProps {
 
 const RootWatermark: FC<IProps> = ({ children }) => {
   const { userInfo, language } = useAppSelector((state) => state.user, useAppShallowEqual);
-  return <Watermark content={language === 'zhCN' ? userInfo?.cnName : userInfo?.enName}>{children}</Watermark>;
+  return (
+    <Watermark style={{ height: '100vh' }} content={language === 'zhCN' ? userInfo?.cnName : userInfo?.enName}>
+      {children}
+    </Watermark>
+  );
 };
 
 export default memo(RootWatermark);
