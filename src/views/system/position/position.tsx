@@ -53,7 +53,8 @@ const Position: FC<IProps> = () => {
         try {
           await editPositionAPI({
             id,
-            ...values
+            ...values,
+            parentId: values.parentId || 0
           });
           closeModal();
         } catch (error: unknown) {

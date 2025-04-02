@@ -49,7 +49,8 @@ const department: FC<IProps> = () => {
         try {
           await editDepartmentAPI({
             id,
-            ...values
+            ...values,
+            parentId: values.parentId || 0
           });
           closeModal();
         } catch (error: unknown) {

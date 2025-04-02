@@ -41,12 +41,14 @@ const internationalTableConfig: { columns: ColumnsType<IInternationalItem> } = {
     {
       title: 'pages.system.international.table.field.title.zhCN',
       dataIndex: 'zhCN',
-      key: 'zhCN'
+      key: 'zhCN',
+      width: 100
     },
     {
       title: 'pages.system.international.table.field.title.enUS',
       dataIndex: 'enUS',
-      key: 'enUS'
+      key: 'enUS',
+      width: 100
     },
     {
       title: 'global.table.field.title.createTime',

@@ -48,7 +48,8 @@ const international: FC<IProps> = () => {
         try {
           await editInternationalAPI({
             id,
-            ...values
+            ...values,
+            parentId: values.parentId || 0
           });
           closeModal();
         } catch (error: unknown) {

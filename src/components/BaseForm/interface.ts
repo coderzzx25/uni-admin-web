@@ -34,6 +34,7 @@ interface IFormItemTreeSelect extends IFormItemBase {
     children?: string;
     key?: string;
   };
+  isI18n?: boolean;
 }
 
 interface IFormItemCustom extends IFormItemBase {

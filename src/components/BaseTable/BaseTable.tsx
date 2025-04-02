@@ -27,11 +27,11 @@ const BaseTable = <T extends object = any>({
   isPagination = true
 }: IProps<T>) => {
   const { t } = useTranslation();
-  const [tableScroll, setTableScroll] = useState({ y: 0 });
+  const [tableScroll, setTableScroll] = useState({ y: 0, x: 'max-content' });
   useEffect(() => {
     const updateTableScroll = () => {
       const availableHeight = window.innerHeight - 300;
-      setTableScroll({ y: availableHeight });
+      setTableScroll({ ...tableScroll, y: availableHeight });
     };
 
     updateTableScroll();

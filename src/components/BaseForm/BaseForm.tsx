@@ -4,6 +4,7 @@ import { IFormItem } from './interface';
 import { Button, Col, Form, FormInstance, Input, Row, Select, Space, TreeSelect } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
+import { DataNode } from 'antd/es/tree';
 
 interface IProps<T> {
   children?: ReactNode;
@@ -16,6 +17,21 @@ interface IProps<T> {
   onSubmit?: (values: T) => void;
   onReset?: () => void;
 }
+
+interface TreeNode extends DataNode {
+  [key: string]: any;
+  children?: TreeNode[];
+}
+
+const processI18nTree = (data: TreeNode[], labelField: string, t: (key: string) => string): TreeNode[] => {
+  return (
+    data?.map((node) => ({
+      ...node,
+      [labelField]: t(node[labelField]),
+      children: node.children ? processI18nTree(node.children, labelField, t) : undefined
+    })) || []
+  );
+};
 
 const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
   if (!item) return null;
@@ -45,24 +61,28 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
           </Select>
         </Form.Item>
       );
-    case 'treeSelect':
+    case 'treeSelect': {
+      const labelField = item.fieldNames?.label || 'label';
+      const valueField = item.fieldNames?.value || 'value';
+      const childrenField = item.fieldNames?.children || 'children';
       return (
         <Form.Item {...commonProps}>
           <TreeSelect
             placeholder={item.placeholder ? t(item.placeholder) : undefined}
             allowClear={item.allowClear}
-            treeData={item.treeData}
+            treeData={item.isI18n ? processI18nTree(item.treeData || [], labelField, t) : item.treeData || []}
             showSearch
             treeDefaultExpandAll
             filterTreeNode={(input, node) => node[item.fieldNames?.label || 'label'].toLowerCase().includes(input.toLowerCase())}
             fieldNames={{
-              label: item.fieldNames?.label || 'label',
-              value: item.fieldNames?.value || 'value',
-              children: item.fieldNames?.children || 'children'
+              label: labelField,
+              value: valueField,
+              children: childrenField
             }}
           />
         </Form.Item>
       );
+    }
     default:
       return null;
   }
