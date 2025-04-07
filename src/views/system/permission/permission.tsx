@@ -127,13 +127,14 @@ const permission: FC<IProps> = () => {
         if (item.name === 'roleId') {
           return {
             ...item,
-            options: roleList.map((item) => ({ label: item.name, value: item.id }))
+            options: roleList.map((item) => ({ label: item.name, value: item.id })),
+            disabled: modalType === 'edit'
           };
         }
         return item;
       })
     }),
-    [menuList, roleList]
+    [menuList, roleList, modalType]
   );
 
   const childrenMap = {

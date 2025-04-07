@@ -46,13 +46,13 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
     case 'input':
       return (
         <Form.Item {...commonProps}>
-          <Input placeholder={item.placeholder ? t(item.placeholder) : undefined} />
+          <Input placeholder={item.placeholder ? t(item.placeholder) : undefined} disabled={item.disabled} />
         </Form.Item>
       );
     case 'select':
       return (
         <Form.Item {...commonProps}>
-          <Select placeholder={item.placeholder ? t(item.placeholder) : undefined} allowClear={item.allowClear}>
+          <Select placeholder={item.placeholder ? t(item.placeholder) : undefined} allowClear={item.allowClear} disabled={item.disabled}>
             {item.options?.map((option) => (
               <Select.Option key={option.value} value={option.value}>
                 {t(option.label)}
@@ -80,6 +80,7 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
               children: childrenField
             }}
             multiple={item.multiple}
+            disabled={item.disabled}
           />
         </Form.Item>
       );

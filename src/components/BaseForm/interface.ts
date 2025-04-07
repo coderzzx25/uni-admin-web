@@ -6,6 +6,7 @@ interface IFormItemBase {
   label?: string;
   placeholder?: string;
   rules?: RuleObject[];
+  disabled?: boolean;
 }
 
 export interface IFormItemSelect extends IFormItemBase {
