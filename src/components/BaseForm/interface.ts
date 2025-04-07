@@ -6,6 +6,7 @@ interface IFormItemBase {
   label?: string;
   placeholder?: string;
   rules?: RuleObject[];
+  disabled?: boolean;
 }
 
 export interface IFormItemSelect extends IFormItemBase {
@@ -35,6 +36,7 @@ interface IFormItemTreeSelect extends IFormItemBase {
     key?: string;
   };
   isI18n?: boolean;
+  multiple?: boolean;
 }
 
 interface IFormItemCustom extends IFormItemBase {
