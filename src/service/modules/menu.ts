@@ -37,6 +37,19 @@ export const getAllMenuSelectAPI = () => {
   });
 };
 
+export interface IGetAllMenuListResponse {
+  id: number;
+  menuType: 'menus' | 'dir' | 'button';
+  parentId?: number;
+  i18nName: string;
+  name: string;
+}
+export const getAllMenuListAPI = () => {
+  return request.get<IGetAllMenuListResponse[]>({
+    url: '/menu/all'
+  });
+};
+
 export interface ICreateMenuRequest {
   menuType: 'menus' | 'dir' | 'button';
   menuIcon?: string;

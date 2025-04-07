@@ -79,6 +79,7 @@ const renderFormItem = (item: IFormItem, t: (key: string) => string) => {
               value: valueField,
               children: childrenField
             }}
+            multiple={item.multiple}
           />
         </Form.Item>
       );

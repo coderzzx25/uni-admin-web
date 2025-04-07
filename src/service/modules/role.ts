@@ -58,3 +58,13 @@ export const editRoleAPI = (data: IEditRoleRequest) => {
     data
   });
 };
+
+export interface IGetAllRolesResponse {
+  id: number;
+  name: string;
+}
+export const getAllRoles = () => {
+  return request.get<IGetAllRolesResponse[]>({
+    url: '/role/all'
+  });
+};
