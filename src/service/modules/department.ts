@@ -3,6 +3,7 @@ import request from '..';
 interface IGetDepartmentListRequest {
   name?: string;
   status?: number;
+  isTree?: boolean;
 }
 
 export interface IGetDepartmentListResponse {
@@ -27,6 +28,15 @@ export const getAllDepartmentSelectAPI = () => {
     url: '/department/list',
     params: {
       status: 1
+    }
+  });
+};
+
+export const getAllDepartmentAPI = () => {
+  return request.get<IGetDepartmentListResponse[]>({
+    url: '/department/list',
+    params: {
+      isTree: true
     }
   });
 };

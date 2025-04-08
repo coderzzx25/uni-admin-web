@@ -13,6 +13,7 @@ interface IProps<T> {
   row?: { gutter: number };
   col?: { span: number } | { sm: number; md: number; lg: number };
   showButtons?: boolean;
+  labelWidth?: number;
   layout?: 'horizontal' | 'vertical' | 'inline';
   onSubmit?: (values: T) => void;
   onReset?: () => void;
@@ -96,6 +97,7 @@ const BaseForm = <T extends object = any>({
   row,
   col,
   showButtons = true,
+  labelWidth,
   layout = 'horizontal',
   onSubmit,
   onReset,
@@ -104,7 +106,7 @@ const BaseForm = <T extends object = any>({
   const { t } = useTranslation();
 
   return (
-    <Form form={form} onFinish={onSubmit} layout={layout} autoComplete="off">
+    <Form form={form} onFinish={onSubmit} layout={layout} autoComplete="off" labelCol={{ flex: `${labelWidth}px` }}>
       <Row {...row}>
         {formItems.map((item, index) => (
           <Col key={index} {...col}>
