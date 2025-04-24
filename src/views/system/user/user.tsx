@@ -81,7 +81,7 @@ const user: FC<IProps> = () => {
       const roleItem = roleList.find((item) => item.id === roleId);
       return roleItem ? roleItem.name : '';
     },
-    action: (values: IUserItem) => (
+    action: () => (
       <Space>
         <Button size="small" type="primary">
           {t('global.table.action.edit')}
