@@ -129,19 +129,19 @@ const userTableConfig: { columns: ColumnsType<IUserItem> } = {
       width: 80
     },
     {
-      title: 'pages.system.user.table.field.title.position',
+      title: 'pages.system.position.table.field.title.name',
       dataIndex: 'positionId',
       key: 'positionId',
       width: 120
     },
     {
-      title: 'pages.system.user.table.field.title.department',
+      title: 'pages.system.department.table.field.title.name',
       dataIndex: 'departmentId',
       key: 'departmentId',
       width: 120
     },
     {
-      title: 'pages.system.user.table.field.title.role',
+      title: 'pages.system.role.table.field.title.name',
       dataIndex: 'roleId',
       key: 'roleId'
     },
