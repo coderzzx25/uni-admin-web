@@ -50,6 +50,7 @@ export type IFormItem = IFormItemInput | IFormItemSelect | IFormItemAction | IFo
 export interface IBaseForm {
   formItems: IFormItem[];
   row?: { gutter: number };
-  col?: { span: number } | { sm: number; md: number; lg: number };
+  col?: { span: number } | { xs?: number; sm: number; md: number; lg: number; xl?: number };
   showButtons?: boolean;
+  labelWidth?: number;
 }

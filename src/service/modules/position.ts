@@ -3,6 +3,7 @@ import request from '..';
 export interface IGetPositionListRequest {
   name?: string;
   status?: number;
+  isTree?: boolean;
 }
 
 export interface IPositionItem {
@@ -20,6 +21,15 @@ export const getAllPositionSelectAPI = () => {
     url: '/position/list',
     params: {
       status: 1
+    }
+  });
+};
+
+export const getAllPositionAPI = () => {
+  return request.get<IPositionItem[]>({
+    url: '/position/list',
+    params: {
+      isTree: true
     }
   });
 };

@@ -1,5 +1,5 @@
 import { BaseForm } from '@/components/BaseForm';
-import { memo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import type { FC, ReactNode } from 'react';
 import { roleModalConfig, roleSearchConfig, roleTableConfig } from './config';
 import useSearch from '@/hooks/useSearch/useSearch';
@@ -18,6 +18,7 @@ import { BaseTable } from '@/components/BaseTable';
 import useModal from '@/hooks/useModal/useModal';
 import { useLocation } from 'react-router-dom';
 import { i18nPrefix } from '@/utils';
+import { getAllMenuListAPI, getAllMenuSelectAPI, IGetAllMenuListResponse } from '@/service/modules/menu';
 
 interface IProps {
   children?: ReactNode;
@@ -78,7 +79,50 @@ const role: FC<IProps> = () => {
     key: 'id'
   });
 
+  const [menuList, setMenuList] = useState<IGetAllMenuListResponse[]>([]);
+  const [allMenuList, setAllMenuList] = useState<IGetAllMenuListResponse[]>([]);
+
+  useEffect(() => {
+    getAllMenuSelectAPI().then((res) => {
+      setMenuList(res);
+    });
+    getAllMenuListAPI().then((res) => {
+      setAllMenuList(res);
+    });
+  }, []);
+
+  const modelConfig = useMemo(
+    () => ({
+      ...roleModalConfig,
+      formItems: roleModalConfig.formItems.map((item) => {
+        if (item.name === 'menuId') {
+          return {
+            ...item,
+            treeData: menuList
+          };
+        }
+        return item;
+      })
+    }),
+    [menuList, modalType]
+  );
+
   const childrenMap = {
+    menuId: ({ menuId }: IRoleItem) => {
+      const maxVisibleTags = 4;
+      const visibleTags = menuId.slice(0, maxVisibleTags);
+      const hasMore = menuId.length > maxVisibleTags;
+
+      return (
+        <>
+          {visibleTags.map((item) => {
+            const menuName = allMenuList.find((menu) => menu.id === item)?.name ?? '';
+            return <Tag key={item}>{t(menuName)}</Tag>;
+          })}
+          {hasMore && <Tag>...</Tag>}
+        </>
+      );
+    },
     action: (values: IRoleItem) => (
       <Space>
         <Button size="small" type="primary" onClick={() => openModal(values)}>
@@ -110,7 +154,7 @@ const role: FC<IProps> = () => {
         onOk={handleSave}
         onCancel={closeModal}
       >
-        <BaseForm {...roleModalConfig} form={modalForm} layout="vertical" />
+        <BaseForm {...modelConfig} form={modalForm} layout="vertical" />
       </Modal>
       {contextHolder}
     </>

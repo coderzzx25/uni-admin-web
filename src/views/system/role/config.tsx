@@ -47,6 +47,11 @@ const roleTableConfig = {
       key: 'describe'
     },
     {
+      title: 'pages.system.role.table.field.title.permission',
+      dataIndex: 'menuId',
+      key: 'menuId'
+    },
+    {
       title: 'global.table.field.title.createTime',
       dataIndex: 'createTime',
       key: 'createTime'
@@ -96,6 +101,26 @@ const roleModalConfig: IBaseForm = {
       label: 'pages.system.role.model.form.field.describe.label',
       name: 'describe',
       placeholder: 'pages.system.role.model.form.field.describe.placeholder'
+    },
+    {
+      type: 'treeSelect',
+      label: 'pages.system.role.model.form.field.permission.label',
+      name: 'menuId',
+      placeholder: 'pages.system.role.model.form.field.permission.placeholder',
+      treeData: [],
+      rules: [
+        {
+          required: true,
+          message: 'pages.system.role.model.form.field.permission.placeholder'
+        }
+      ],
+      multiple: true,
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+        children: 'children'
+      },
+      isI18n: true
     },
     {
       type: 'select',
