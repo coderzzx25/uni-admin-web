@@ -12,6 +12,7 @@ export interface IRoleItem {
   name: string;
   code: string;
   describe: string;
+  menuId: number[];
   sort: number;
   createTime: string;
   updateTime: string;
@@ -35,6 +36,7 @@ export interface ICreateRoleRequest {
   code?: string;
   describe?: string;
   status: number;
+  menuId: number[];
 }
 
 export const createRoleAPI = (data: ICreateRoleRequest) => {
@@ -50,6 +52,7 @@ export interface IEditRoleRequest {
   code?: string;
   describe?: string;
   status: number;
+  menuId: number[];
 }
 
 export const editRoleAPI = (data: IEditRoleRequest) => {
