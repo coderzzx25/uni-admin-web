@@ -12,6 +12,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { mapRouterToUrl, routerToMenu } from '@/utils/router';
 import { useTranslation } from 'react-i18next';
 import { Layout } from 'antd';
+import HigherWatermark from '@/components/HigherWatermark/HigherWatermark';
 
 interface IProps {
   children?: ReactNode;
@@ -54,19 +55,21 @@ const main: FC<IProps> = () => {
   };
   return (
     <HigherDocumentTitle>
-      <MainWrapper>
-        <MainSider collapsed={collapsed}>
-          <RootMenu items={items} mode="inline" defaultSelectedKeys={pathname} handleMenu={onClickMenu} />
-        </MainSider>
-        <Layout>
-          <MainHeader collapsed={collapsed} setCollapsed={onClickCollapsed}>
-            <UserInfo name={language === 'zhCN' ? userInfo?.cnName || '' : userInfo?.enName || ''} avatar={userInfo?.avatarUrl || ''} />
-          </MainHeader>
-          <Content className="content">
-            <Outlet />
-          </Content>
-        </Layout>
-      </MainWrapper>
+      <HigherWatermark content={language === 'zhCN' ? userInfo?.cnName ?? '' : userInfo?.enName ?? ''}>
+        <MainWrapper>
+          <MainSider collapsed={collapsed}>
+            <RootMenu items={items} mode="inline" defaultSelectedKeys={pathname} handleMenu={onClickMenu} />
+          </MainSider>
+          <Layout>
+            <MainHeader collapsed={collapsed} setCollapsed={onClickCollapsed}>
+              <UserInfo name={language === 'zhCN' ? userInfo?.cnName || '' : userInfo?.enName || ''} avatar={userInfo?.avatarUrl || ''} />
+            </MainHeader>
+            <Content className="content">
+              <Outlet />
+            </Content>
+          </Layout>
+        </MainWrapper>
+      </HigherWatermark>
     </HigherDocumentTitle>
   );
 };
