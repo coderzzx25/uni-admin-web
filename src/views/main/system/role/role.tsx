@@ -16,7 +16,7 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { BaseTable } from '@/components/BaseTable';
 import useModal from '@/hooks/useModal/useModal';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { i18nPrefix } from '@/utils';
 import { getAllMenuListAPI, getAllMenuSelectAPI, IGetAllMenuListResponse } from '@/service/modules/menu';
 

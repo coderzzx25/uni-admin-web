@@ -18,7 +18,7 @@ import {
   IPositionItem
 } from '@/service/modules/position';
 import useModal from '@/hooks/useModal/useModal';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { i18nPrefix } from '@/utils';
 
 interface IProps {

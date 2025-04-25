@@ -1,10 +1,10 @@
 import { lazy } from 'react';
-import { createBrowserRouter, redirect, RouteObject } from 'react-router-dom';
+import { createBrowserRouter, redirect, RouteObject } from 'react-router';
 
 import { loadLocalRouter } from '@/utils/router';
 import { localCache } from '@/utils/cache';
 
-const RootLayout = lazy(() => import('@/components/RootLayout/RootLayout'));
+const Main = lazy(() => import('@/views/main/main'));
 const Login = lazy(() => import('@/views/login/login'));
 const NotFound = lazy(() => import('@/views/notfound/notfound'));
 
@@ -21,7 +21,7 @@ const requireAuth = async () => {
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <RootLayout />,
+    element: <Main />,
     loader: requireAuth,
     children: loadLocalRouter()
   },

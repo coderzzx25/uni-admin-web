@@ -2,7 +2,7 @@ import { Button, Result } from 'antd';
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 interface IProps {
   children?: ReactNode;

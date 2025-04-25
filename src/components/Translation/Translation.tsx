@@ -5,6 +5,7 @@ import { TranslationOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector, useAppShallowEqual } from '@/store';
 import { setLanguageReducer } from '@/store/modules/user';
+import { Language } from '@/global.types';
 
 interface IProps {
   children?: ReactNode;
@@ -17,7 +18,7 @@ const Translation: FC<IProps> = () => {
   /**
    * 切换语言
    */
-  const onClickLanguage = (local: string) => {
+  const onClickLanguage = (local: Language) => {
     i18n.changeLanguage(local);
     dispatch(setLanguageReducer(local));
   };

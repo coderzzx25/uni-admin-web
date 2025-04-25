@@ -1,3 +1,4 @@
+import { Language } from '@/global.types';
 import { getAllInternationalAPI, IGetAllInternationalResponse } from '@/service/modules/international';
 import { localCache } from '@/utils/cache';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -12,7 +13,7 @@ export const fetchAllLocales = createAsyncThunk<IGetAllInternationalResponse, vo
 
 interface ILocalesState {
   allLocales: IGetAllInternationalResponse | null;
-  language: 'zhCN' | 'enUS';
+  language: Language;
 }
 
 const localesSlice = createSlice({

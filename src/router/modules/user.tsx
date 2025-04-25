@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const User = lazy(() => import('@/views/system/user/user'));
+const User = lazy(() => import('@/views/main/system/user/user'));
 
 export default {
   path: '/system/user',

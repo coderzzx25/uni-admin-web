@@ -31,6 +31,8 @@ export interface IUserItem {
   positionId: number;
   departmentId: number;
   roleId: number;
+  createTime: string;
+  updateTime: string;
 }
 
 interface IGetUserListResponse {

@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const Position = lazy(() => import('@/views/system/position/position'));
+const Position = lazy(() => import('@/views/main/system/position/position'));
 
 export default {
   path: '/system/position',

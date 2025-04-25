@@ -2,7 +2,7 @@ import { IUserMenuListResponse } from '@/service/modules/auth';
 import * as Icons from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { createElement } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { RouteObject } from 'react-router';
 
 type MenuItem = Required<MenuProps>['items'][number] & {
   children?: MenuItem[];

@@ -2,10 +2,11 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { getAllInternationalAPI } from '@/service/modules/international';
+import { Language } from '@/global.types';
 
 const createCustomBackend = () => ({
   type: 'backend' as const,
-  read(language: string, _namespace: string, callback: (error: any, data: any) => void) {
+  read(language: Language, _namespace: string, callback: (error: any, data: any) => void) {
     getAllInternationalAPI()
       .then((data) => {
         const translations = data[language] || data['zhCN'];
