@@ -2,6 +2,7 @@ import { localCache } from '@/utils/cache';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IUserInfoResponse, userInfoAPI, userMenuListAPI, IUserMenuListResponse } from '@/service/modules/auth';
+import { Language } from '@/global.types';
 
 interface IUserState {
   userInfo: IUserInfoResponse | null;
@@ -9,7 +10,7 @@ interface IUserState {
   themeDark: boolean;
   themeColor: string;
   collapsed: boolean;
-  language: string;
+  language: Language;
 }
 
 /**
@@ -35,7 +36,7 @@ const userSlice = createSlice({
     themeDark: localCache.getCache('themeDark') || false,
     themeColor: localCache.getCache('themeColor') || '#1677ff',
     collapsed: localCache.getCache('collapsed') || false,
-    language: localCache.getCache('language') || 'cn'
+    language: localCache.getCache('language') || 'zhCN'
   } as IUserState,
   reducers: {
     setThemeDarkReducer(state, { payload }: PayloadAction<boolean>) {
@@ -53,7 +54,7 @@ const userSlice = createSlice({
 
       localCache.setCache('collapsed', payload);
     },
-    setLanguageReducer(state, { payload }: PayloadAction<string>) {
+    setLanguageReducer(state, { payload }: PayloadAction<Language>) {
       state.language = payload;
 
       localCache.setCache('language', payload);

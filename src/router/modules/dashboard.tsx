@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const Dashboard = lazy(() => import('@/views/dashboard/dashboard'));
+const Dashboard = lazy(() => import('@/views/main/dashboard/dashboard'));
 
 export default {
   path: '/',

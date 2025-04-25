@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const International = lazy(() => import('@/views/system/international/international'));
+const International = lazy(() => import('@/views/main/system/international/international'));
 
 export default {
   path: '/system/international',

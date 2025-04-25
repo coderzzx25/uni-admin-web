@@ -17,7 +17,7 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { i18nPrefix } from '@/utils';
 import useModal from '@/hooks/useModal/useModal';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 interface IProps {
   children?: ReactNode;

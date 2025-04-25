@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const Department = lazy(() => import('@/views/system/department/department'));
+const Department = lazy(() => import('@/views/main/system/department/department'));
 
 export default {
   path: '/system/department',

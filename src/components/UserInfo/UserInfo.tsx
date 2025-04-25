@@ -7,7 +7,7 @@ import { MenuProps } from 'antd/lib';
 import UserInfoWrapper from './style';
 import { useAppDispatch } from '@/store';
 import { loginOutReducer } from '@/store/modules/user';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 interface IProps {
   children?: ReactNode;
